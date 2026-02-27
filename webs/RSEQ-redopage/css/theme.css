@@ -1,0 +1,11 @@
+/* les couleurs et polices globales */
+:root{
+    --bg: #292929;
+    --card: #1b1c1e;
+    --muted: #a0a0a0;
+    --accent: #0037FF;
+    --white: #ffffff;
+    --max-width: 1800px;
+    --font-title: "Bebas Neue", Impact, sans-serif;
+    --font-body: "Oswald", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
