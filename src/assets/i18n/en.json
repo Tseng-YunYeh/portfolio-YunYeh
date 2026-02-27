@@ -1,0 +1,62 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "portfolio": "Portfolio",
+        "contact": "Contact"
+    },
+    "home": {
+        "greeting": "Hello, I'm",
+        "role": "Creative Developer & Designer",
+        "viewWork": "View Work",
+        "downloadCV": "Download CV",
+        "featuredWork": "Featured Work",
+        "viewAllProjects": "View All Projects"
+    },
+    "about": {
+        "title": "About Me",
+        "subtitle": "My journey, skills, and passion.",
+        "whoIAm": "Who I Am",
+        "description": "I am a passionate developer with a keen eye for design. I specialize in building responsive, user-friendly websites and applications. With a background in both design and engineering, I bridge the gap between aesthetics and functionality.",
+        "mySkills": "My Skills",
+        "letsTalk": "Let's Talk",
+        "experience": "Experience",
+        "exp1_date": "2023 - Present",
+        "exp1_role": "Senior Developer",
+        "exp1_company": "Tech Solutions Inc.",
+        "exp1_desc": "Leading frontend development and mentoring junior developers.",
+        "exp2_date": "2021 - 2023",
+        "exp2_role": "Web Designer",
+        "exp2_company": "Creative Studio",
+        "exp2_desc": "Designed and implemented UI for various client projects."
+    },
+    "portfolio": {
+        "title": "My Work",
+        "subtitle": "A selection of my recent projects.",
+        "filterAll": "All",
+        "clickToDownload": "Click to Download",
+        "viewLive": "View Live"
+    },
+    "contact": {
+        "title": "Get In Touch",
+        "subtitle": "Have a project in mind? Let's work together.",
+        "location": "Location",
+        "email": "Email",
+        "phone": "Phone",
+        "formName": "Name",
+        "formEmail": "Email",
+        "formSubject": "Subject",
+        "formMessage": "Message",
+        "sendMessage": "Send Message"
+    },
+    "footer": {
+        "rights": "© 2025 MyPortfolio. All rights reserved.",
+        "description": "Creating digital experiences that inspire and innovate. Let's build something amazing together.",
+        "searchProjects": "Search Projects",
+        "searchText": "Find specific projects from my portfolio.",
+        "searchPlaceholder": "Search projects...",
+        "connect": "Connect",
+        "connectText": "Follow me on social media for updates and behind-the-scenes content.",
+        "madeWith": "Made with ❤️ and creativity"
+    }
+}

@@ -1,0 +1,62 @@
+{
+    "nav": {
+        "home": "Inicio",
+        "about": "Sobre mí",
+        "portfolio": "Portafolio",
+        "contact": "Contacto"
+    },
+    "home": {
+        "greeting": "Hola, soy",
+        "role": "Desarrollador Creativo y Diseñador",
+        "viewWork": "Ver Trabajo",
+        "downloadCV": "Descargar CV",
+        "featuredWork": "Trabajos Destacados",
+        "viewAllProjects": "Ver Todos los Proyectos"
+    },
+    "about": {
+        "title": "Sobre Mí",
+        "subtitle": "Mi viaje, habilidades y pasión.",
+        "whoIAm": "Quién Soy",
+        "description": "Soy un desarrollador apasionado con buen ojo para el diseño. Me especializo en crear sitios web y aplicaciones responsivas y fáciles de usar. Con experiencia tanto en diseño como en ingeniería, uno la estética con la funcionalidad.",
+        "mySkills": "Mis Habilidades",
+        "letsTalk": "Hablemos",
+        "experience": "Experiencia",
+        "exp1_date": "2023 - Presente",
+        "exp1_role": "Desarrollador Senior",
+        "exp1_company": "Tech Solutions Inc.",
+        "exp1_desc": "Liderando el desarrollo frontend y mentoreando a desarrolladores junior.",
+        "exp2_date": "2021 - 2023",
+        "exp2_role": "Diseñador Web",
+        "exp2_company": "Creative Studio",
+        "exp2_desc": "Diseñé e implementé UI para varios proyectos de clientes."
+    },
+    "portfolio": {
+        "title": "Mi Trabajo",
+        "subtitle": "Una selección de mis proyectos recientes.",
+        "filterAll": "Todos",
+        "clickToDownload": "Clic para Descargar",
+        "viewLive": "Ver en vivo"
+    },
+    "contact": {
+        "title": "Contáctame",
+        "subtitle": "¿Tienes un proyecto en mente? Trabajemos juntos.",
+        "location": "Ubicación",
+        "email": "Correo",
+        "phone": "Teléfono",
+        "formName": "Nombre",
+        "formEmail": "Correo",
+        "formSubject": "Asunto",
+        "formMessage": "Mensaje",
+        "sendMessage": "Enviar Mensaje"
+    },
+    "footer": {
+        "rights": "© 2025 MyPortfolio. Todos los derechos reservados.",
+        "description": "Creando experiencias digitales que inspiran e innovan. Construyamos algo increíble juntos.",
+        "searchProjects": "Buscar Proyectos",
+        "searchText": "Encuentra proyectos específicos de mi portfolio.",
+        "searchPlaceholder": "Buscar proyectos...",
+        "connect": "Conectar",
+        "connectText": "Sígueme en redes sociales para actualizaciones y contenido detrás de escenas.",
+        "madeWith": "Hecho con ❤️ y creatividad"
+    }
+}

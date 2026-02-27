@@ -1,0 +1,62 @@
+{
+    "nav": {
+        "home": "Accueil",
+        "about": "À propos",
+        "portfolio": "Portfolio",
+        "contact": "Contact"
+    },
+    "home": {
+        "greeting": "Bonjour, je suis",
+        "role": "Développeur Créatif & Designer",
+        "viewWork": "Voir mes travaux",
+        "downloadCV": "Télécharger CV",
+        "featuredWork": "Projets en vedette",
+        "viewAllProjects": "Voir tous les projets"
+    },
+    "about": {
+        "title": "À propos de moi",
+        "subtitle": "Mon parcours, mes compétences et ma passion.",
+        "whoIAm": "Qui suis-je",
+        "description": "Je suis un développeur passionné avec un œil attentif pour le design. Je me spécialise dans la création de sites web et d'applications réactifs et conviviaux. Avec une formation en design et en ingénierie, je comble le fossé entre l'esthétique et la fonctionnalité.",
+        "mySkills": "Mes compétences",
+        "letsTalk": "Discutons",
+        "experience": "Expérience",
+        "exp1_date": "2023 - Présent",
+        "exp1_role": "Développeur Senior",
+        "exp1_company": "Tech Solutions Inc.",
+        "exp1_desc": "Direction du développement frontend et mentorat des développeurs juniors.",
+        "exp2_date": "2021 - 2023",
+        "exp2_role": "Web Designer",
+        "exp2_company": "Creative Studio",
+        "exp2_desc": "Conception et mise en œuvre d'interfaces utilisateur pour divers projets clients."
+    },
+    "portfolio": {
+        "title": "Mon travail",
+        "subtitle": "Une sélection de mes projets récents.",
+        "filterAll": "Tout",
+        "clickToDownload": "Cliquer pour Télécharger",
+        "viewLive": "Voir en direct"
+    },
+    "contact": {
+        "title": "Contactez-moi",
+        "subtitle": "Vous avez un projet en tête ? Travaillons ensemble.",
+        "location": "Localisation",
+        "email": "Email",
+        "phone": "Téléphone",
+        "formName": "Nom",
+        "formEmail": "Email",
+        "formSubject": "Sujet",
+        "formMessage": "Message",
+        "sendMessage": "Envoyer le message"
+    },
+    "footer": {
+        "rights": "© 2025 MyPortfolio. Tous droits réservés.",
+        "description": "Créer des expériences numériques qui inspirent et innovent. Construisons quelque chose d'extraordinaire ensemble.",
+        "searchProjects": "Rechercher des Projets",
+        "searchText": "Trouvez des projets spécifiques dans mon portfolio.",
+        "searchPlaceholder": "Rechercher des projets...",
+        "connect": "Connectez-vous",
+        "connectText": "Suivez-moi sur les réseaux sociaux pour les mises à jour et les coulisses.",
+        "madeWith": "Fait avec ❤️ et créativité"
+    }
+}

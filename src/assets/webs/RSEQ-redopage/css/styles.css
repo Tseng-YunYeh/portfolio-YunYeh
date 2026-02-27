@@ -1,0 +1,1524 @@
+@charset "utf-8";
+@import url(theme.css);
+@import url(base.css);
+
+/* ================ Entête ================ */
+.entete-site {
+    background: linear-gradient(135deg, rgba(0, 55, 255, 0.08) 0%, rgba(60, 136, 196, 0.05) 50%, rgba(41, 41, 41, 0.95) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+
+}
+
+/* Effet de ligne dynamique sportive */
+.entete-site::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #0037FF, #3C88C4, #0037FF, transparent);
+    animation: headerLine 4s linear infinite;
+}
+
+@keyframes headerLine {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+.entete-interieur {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    max-width: var(--max-width);
+    padding: 8px 15px;
+    background: linear-gradient(90deg, rgba(41, 41, 41, 0) 0%, rgba(41, 41, 41, 0.6) 30%, #000 100%);
+    border-radius: 10px;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(0, 55, 255, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+/* Logo - RSEQ */
+.logo img {
+    height: clamp(50px, 10vw, 60px);
+    width: auto;
+    display: block;
+}
+
+.entete-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* langue */
+.entete-actions .langue {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 16px);
+    border-radius: 6px;
+    font-size: clamp(14px, 2.5vw, 16px);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* icône du drapeau */
+.entete-actions .langue .icone-drapeau {
+    width: clamp(18px, 4vw, 24px);
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+}
+
+/* connexion */
+.entete-actions .profil {
+    width: clamp(40px, 8vw, 52px);
+    height: clamp(40px, 8vw, 52px);
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 55, 255, 0.2);
+}
+
+.entete-actions .profil:hover {
+    border-color: #0037FF;
+    box-shadow: 0 4px 15px rgba(0, 55, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.icone-profil {
+    width: 65%;
+    height: 65%;
+    transition: transform 0.3s;
+    user-select: none;
+}
+
+.entete-actions .profil:hover .icone-profil {
+    transform: scale(1.1);
+}
+
+/* navigation bureau (cachée en mobile) */
+.nav-bureau {
+    display: none;
+    gap: 25px;
+}
+
+.boutons-droite {
+    display: none;
+}
+
+.desktop-sidebar,
+.desktop-extra-content {
+    display: none;
+}
+
+/* === contenus === */
+.container {
+    margin: 0 auto;
+    /* top padding pour header fixe + bottom pour nav mobile */
+    padding: 90px 15px 60px;
+    max-width: var(--max-width);
+}
+
+/* ========= Bannière ========= */
+.banniere {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.banniere-texte {
+    position: absolute;
+    bottom: 35%;
+    left: 15px;
+}
+
+.banniere-texte h1 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: clamp(32px, 8vw, 70px);
+    color: rgb(64, 134, 199);
+    font-weight: 400;
+    letter-spacing: 3px;
+}
+
+.banniere-texte p {
+    margin: 4px 0 0;
+    font-size: clamp(12px, 2.5vw, 22px);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+}
+
+.banniere-img {
+    width: 100%;
+    height: clamp(200px, 40vw, 400px);
+    display: block;
+    border-radius: 10px;
+    object-fit: cover;
+    user-select: none;
+}
+
+/* ====== Images bannière responsive - mobile par défaut ====== */
+.banniere-mobile {
+    display: block;
+}
+
+.banniere-tablette {
+    display: none;
+}
+
+.banniere-bureau {
+    display: none;
+}
+
+/* ======================= COMMANDITAIRES DÉFILANTS =================== */
+.commanditaires-defilant {
+    overflow: hidden;
+    padding: 15px 0;
+    background: linear-gradient(90deg, var(--bg) 0%, rgba(0, 55, 255, 0.05) 50%, var(--bg) 100%);
+    position: relative;
+    width: 100%;
+}
+
+/* Masques de fondu sur les côtés */
+.commanditaires-defilant::before,
+.commanditaires-defilant::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.commanditaires-defilant::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, transparent 100%);
+}
+
+.commanditaires-defilant::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--bg) 0%, transparent 100%);
+}
+
+.piste-commanditaires {
+    display: flex;
+    gap: clamp(30px, 5vw, 80px);
+    width: max-content;
+    animation: scrollSponsors 25s linear infinite;
+    padding: 0 20px;
+}
+
+.piste-commanditaires img {
+    height: clamp(30px, 4vw, 60px);
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(2);
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.piste-commanditaires img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+@keyframes scrollSponsors {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Pause au survol */
+.commanditaires-defilant:hover .piste-commanditaires {
+    animation-play-state: paused;
+}
+
+/* ====== Bande d'icônes - logos circulaires ====== */
+.bande-icones {
+    margin: 14px 0;
+    overflow: auto;
+}
+
+.icones {
+    display: flex;
+    gap: 10px;
+    padding: 8px 2px;
+}
+
+.icone {
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 4px 15px rgba(0, 55, 255, 0.4), 0 2px 6px rgba(0, 0, 0, 0.6);
+    border: 2px solid #0037FF;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+}
+
+.icone:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 8px 25px rgba(0, 55, 255, 0.6),
+        0 0 20px rgba(60, 136, 196, 0.4);
+    border-color: #3C88C4;
+}
+
+
+/* Titre de section */
+.titre-section {
+    font-family: var(--font-title);
+    color: var(--muted);
+    margin: 18px 2px 12px;
+    font-weight: 400;
+    font-size: clamp(20px, 4vw, 28px);
+    letter-spacing: 2px;
+}
+
+/* ================ Cartes d'actualités ================= */
+.cartes-actualites {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+    user-select: none;
+}
+
+.carte {
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+.carte img {
+    width: clamp(80px, 25vw, 120px);
+    height: clamp(55px, 18vw, 85px);
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.carte-texte {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.carte-texte h3 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: clamp(16px, 4vw, 20px);
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+/* === Effet Actualités sportif === */
+.carte.actualites {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s, box-shadow 0.5s;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.carte.actualites:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 40px rgba(0, 55, 255, 0.2), 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.carte.actualites .carte-texte {
+    z-index: 2;
+}
+
+/* Barre accent sous le titre */
+.carte.actualites .carte-texte h3::after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 40px;
+    background: linear-gradient(90deg, #0037FF, #3C88C4);
+    margin: 8px auto 0;
+    border-radius: 3px;
+}
+
+/* Révélation au défilement */
+.carte.actualites.revelee {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.6s, transform 0.6s;
+}
+
+/* Lueur sportive qui suit la souris */
+.carte-lueur {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(0, 55, 255, 0.45) 0%, rgba(60, 136, 196, 0.25) 40%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 1;
+    filter: blur(40px);
+}
+
+/* Grille de vignettes */
+.vignettes {
+    margin: 16px 0;
+}
+
+/* Grille pour "Vous pourriez aimer" */
+.grille-vignettes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 12px 0;
+}
+
+/* Conteneur de chaque vignette */
+.vignette {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s;
+}
+
+.vignette img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
+}
+
+/* Overlay avec description */
+.vignette-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(30, 30, 30, 0.3) 30%,
+            rgba(20, 20, 20, 0.85) 70%,
+            rgba(10, 10, 10, 0.95) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    opacity: 0;
+    transition: opacity 0.4s, backdrop-filter 0.4s;
+    backdrop-filter: blur(0px);
+    overflow: hidden;
+}
+
+.vignette-overlay h5 {
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    font-size: clamp(8px, 2.5vw, 14px);
+    text-transform: none;
+    letter-spacing: 0.2px;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95), 0 1px 2px rgba(0, 0, 0, 0.9);
+    text-align: center;
+    line-height: 1.25;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s;
+    max-width: 100%;
+    padding: 2px;
+}
+
+/* Effet au survol */
+.vignette:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.04);
+}
+
+.vignette:hover img {
+    transform: scale(1.15);
+    filter: brightness(0.6) saturate(1.2);
+}
+
+.vignette:hover .vignette-overlay {
+    opacity: 1;
+    backdrop-filter: blur(2px);
+}
+
+.vignette:hover .vignette-overlay h5 {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+/* =============== Liste d'articles =============== */
+.liste-articles {
+    display: grid;
+    gap: 24px;
+    margin-top: 14px;
+}
+
+.article h4 {
+    margin: 0 0 10px 0;
+    font-family: var(--font-title);
+    font-size: clamp(18px, 4vw, 26px);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.article img {
+    width: 100%;
+    height: clamp(200px, 45vw, 300px);
+    object-fit: cover;
+    border-radius: 3px;
+    user-select: none;
+    transition: transform 0.2s, border-radius 0.2s;
+}
+
+.article img:hover {
+    transform: scale(1.02);
+    border-radius: 12px;
+}
+
+/* ================== TABLEAU DES SCORES ============ */
+.tableau-scores {
+    background: linear-gradient(180deg, var(--card) 0%, rgba(20, 20, 20, 0.95) 100%);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 55, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    padding: 16px 12px;
+}
+
+.titre-scores {
+    margin: 0 0 12px 0;
+    padding-bottom: 10px;
+    font-family: var(--font-title);
+    font-size: clamp(18px, 3vw, 24px);
+    color: var(--muted);
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.match {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 10px;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.3s;
+}
+
+.match:last-child {
+    border-bottom: none;
+}
+
+.match:hover {
+    background: rgba(0, 55, 255, 0.08);
+    border-radius: 6px;
+}
+
+.equipe {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.equipe-gauche {
+    justify-content: flex-start;
+}
+
+.equipe-droite {
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+}
+
+.equipe img {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.pointage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 8px;
+    padding: 0 12px;
+    min-width: 90px;
+}
+
+.pointage-gauche,
+.pointage-droite {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--white);
+    text-align: center;
+    min-width: 30px;
+}
+
+.separateur-pointage {
+    color: var(--muted);
+    font-size: 18px;
+}
+
+/* Contenu avec barre latérale - mobile : sidebar caché */
+.contenu-avec-barre {
+    display: block;
+}
+
+.contenu-principal {
+    width: 100%;
+}
+
+/* Barre latérale droite - cachée en mobile */
+.barre-laterale {
+    display: none;
+}
+
+.images-laterales {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.images-laterales img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* ================ Navigation mobile =================== */
+.nav-mobile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    gap: 6px;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 12px;
+    background: linear-gradient(0deg, #000 0%, #292929 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    user-select: none;
+    z-index: 1000;
+}
+
+.bouton-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background: none;
+    border: none;
+}
+
+.icone-nav {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.bouton-nav span {
+    font-size: 14px;
+    background: linear-gradient(180deg, #3C88C4 0%, #142C40 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Effet hover */
+.bouton-nav:hover .icone-nav {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}
+
+/* =================  PIED DE PAGE ================*/
+.piedpage {
+    background: #000;
+    padding: 30px 20px 80px;
+    /* padding-bottom pour nav mobile */
+    color: white;
+}
+
+.piedpage-interieur {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Section principale : 3 colonnes */
+.piedpage-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* --- Section gauche : Support --- */
+.piedpage-gauche {
+    text-align: center;
+}
+
+.piedpage-gauche h4 {
+    margin: 0 0 10px;
+    font-family: var(--font-title);
+    font-size: 20px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+.piedpage-gauche p {
+    margin: 6px 0;
+    font-size: 13px;
+    color: #bbb;
+}
+
+.piedpage-gauche a {
+    color: #3C88C4;
+    text-decoration: none;
+}
+
+.piedpage-gauche a:hover {
+    text-decoration: underline;
+}
+
+/* --- Section milieu : Apps --- */
+.piedpage-centre {
+    display: flex;
+    justify-content: center;
+}
+
+.piedpage-apps {
+    display: flex;
+    gap: 20px;
+}
+
+.piedpage-apps img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    user-select: none;
+}
+
+/* --- Section droite : Messages --- */
+.piedpage-droite,
+.piedpage-messages {
+    text-align: center;
+}
+
+.piedpage-messages p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #bbb;
+}
+
+/* --- Texte légal --- */
+.mentions-legales {
+    font-size: 12px;
+    color: #bbb;
+    text-align: center;
+}
+
+.separateur-piedpage {
+    width: 80%;
+    margin: 20px auto;
+    border: none;
+    border-top: 2px solid #444;
+}
+
+/* --- Réseaux sociaux (bas) --- */
+.piedpage-reseaux {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 10px;
+}
+
+.piedpage-reseaux img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    user-select: none;
+}
+
+
+/* ======================================================================================= */
+/* ================================= TABLETTE — ≥ 600px et < 1024px ==================== */
+/* ========================================= ========================================= */
+
+@media (min-width: 600px) {
+    .entete-site::before {
+        height: 7px;
+    }
+
+    /* Logo plus grand en tablette */
+    .logo img {
+        height: clamp(60px, 9vw, 75px);
+    }
+
+    /* Profil plus grand en tablette */
+    .entete-actions .profil {
+        width: clamp(46px, 7vw, 56px);
+        height: clamp(46px, 7vw, 56px);
+    }
+
+    .entete-actions .langue {
+        font-size: clamp(15px, 2vw, 18px);
+        padding: clamp(8px, 1.2vw, 12px) clamp(12px, 2vw, 18px);
+        gap: 8px;
+    }
+
+    .entete-actions .langue .icone-drapeau {
+        width: clamp(22px, 3vw, 28px);
+    }
+
+    .entete-interieur {
+        padding: 0 20px;
+    }
+
+    /* Bannière - afficher image tablette */
+    .banniere-mobile {
+        display: none;
+    }
+
+    .banniere-tablette {
+        display: block;
+    }
+
+    .banniere-img {
+        height: clamp(280px, 35vw, 450px);
+    }
+
+    .container {
+        padding: 100px 30px 60px;
+    }
+
+    /* cacher le menu du bas */
+    .nav-mobile {
+        display: none;
+    }
+
+    /* afficher le menu du haut */
+    .nav-bureau {
+        display: flex;
+        margin-left: 30px;
+    }
+
+    .nav-bureau a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 900;
+        font-size: clamp(18px, 2.5vw, 26px);
+        position: relative;
+        padding: 8px 4px;
+        transition: color 0.3s, transform 0.3s;
+        user-select: none;
+
+    }
+
+    /* Ligne sportive sous le lien */
+    .nav-bureau a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3C88C4, #0037FF);
+        transition: all 0.3s;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .nav-bureau a:hover {
+        color: #3C88C4;
+        transform: translateY(1px);
+    }
+
+    .nav-bureau a:hover::after {
+        width: 100%;
+        box-shadow: 0 0 10px rgba(0, 55, 255, 0.5);
+    }
+
+    .bande-icones {
+        display: flex;
+        justify-content: space-between;
+        /* icons à gauche, boutons à droite */
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Les icônes en cercle qui scale auto */
+    .icones {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: clamp(8px, 1.5vw, 20px);
+        flex: 1 1 0;
+        min-width: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 8px 2px;
+    }
+
+    .icone {
+        flex: 0 0 auto;
+        width: clamp(50px, 8vw, 100px);
+        height: clamp(50px, 8vw, 100px);
+        min-width: unset;
+        min-height: unset;
+        border-radius: 50%;
+    }
+
+    /* afficher les boutons à droite par défaut, wrap si dépasse */
+    .boutons-droite {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 colonnes */
+        grid-auto-rows: auto;
+        gap: clamp(6px, 1.2vw, 12px);
+        width: clamp(160px, 28vw, 300px);
+        max-width: 35%;
+        flex-shrink: 0;
+        margin-left: auto;
+        user-select: none;
+    }
+
+    /* Les enfants prennent la largeur de la cellule et s'adaptent */
+    .boutons-droite>* {
+        width: 100%;
+        padding: clamp(6px, 1vw, 10px);
+        box-sizing: border-box;
+        gap: clamp(3px, 0.5vw, 6px);
+    }
+
+    /* Style des liens boutons */
+    .boutons-droite a {
+        text-decoration: none;
+        color: var(--white);
+        background: linear-gradient(180deg, #222, #4b494900);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: clamp(6px, 1vw, 10px);
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        min-height: clamp(50px, 8vw, 80px);
+    }
+
+    /* Image couleur (par défaut visible) */
+    .boutons-droite a img:first-of-type {
+        width: clamp(22px, 3.5vw, 40px);
+        height: clamp(22px, 3.5vw, 40px);
+        object-fit: contain;
+        flex-shrink: 0;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 2px 8px rgba(0, 55, 255, 0.3));
+    }
+
+    /* Image blanche (cachée par défaut) */
+    .boutons-droite a img.img-survol {
+        position: absolute;
+        width: clamp(22px, 3.5vw, 40px);
+        height: clamp(22px, 3.5vw, 40px);
+        object-fit: contain;
+        opacity: 0;
+        transform: scale(0.85) rotate(-20deg);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+    }
+
+    /* Texte h1 */
+    .boutons-droite a h1 {
+        margin: 0;
+        font-size: clamp(8px, 1.2vw, 12px);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 1;
+        transform: translateY(0);
+        white-space: nowrap;
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    /* ===== EFFET HOVER ===== */
+    .boutons-droite a:hover {
+        background: linear-gradient(180deg, #3a3a3a, #1a1a1a);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-3px);
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(255, 255, 255, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* Au hover : cacher image couleur avec rotation */
+    .boutons-droite a:hover img:first-of-type {
+        opacity: 0;
+        transform: scale(0.9) rotate(15deg);
+    }
+
+    /* Au hover : afficher image blanche avec rotation inverse */
+    .boutons-droite a:hover img.img-survol {
+        opacity: 1;
+        transform: scale(1.05) rotate(0deg);
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.9));
+    }
+
+    /* Au hover : cacher le texte avec slide */
+    .boutons-droite a:hover h1 {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    .boutons-droite button {
+        padding: 6px 10px;
+        background: #222;
+        border: 1px solid #444;
+        color: white;
+        border-radius: 6px;
+
+    }
+
+    /* Contenu avec barre latérale - flex en tablette */
+    .contenu-avec-barre {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .contenu-principal {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Images cartes plus grandes en tablette */
+    .carte img {
+        width: clamp(100px, 15vw, 150px);
+        height: clamp(70px, 10vw, 100px);
+    }
+
+    /* Images articles plus hautes en tablette */
+    .article img {
+        height: clamp(280px, 35vw, 400px);
+    }
+
+    /* Barre latérale visible à droite */
+    .barre-laterale {
+        display: block;
+        width: clamp(220px, 28vw, 320px);
+        flex-shrink: 0;
+    }
+
+    /* Tableau des scores tablette */
+    .tableau-scores {
+        padding: 18px 14px;
+        border-radius: 16px;
+    }
+
+    .titre-scores {
+        font-size: clamp(16px, 2.2vw, 22px);
+        letter-spacing: 2px;
+        margin-bottom: 14px;
+        padding-bottom: 12px;
+    }
+
+    .match {
+        padding: 12px 8px;
+        gap: 10px;
+    }
+
+    .equipe {
+        gap: 6px;
+    }
+
+    .equipe img {
+        width: clamp(40px, 5vw, 56px);
+        height: clamp(40px, 5vw, 56px);
+    }
+
+    .pointage {
+        gap: 6px;
+        padding: 0 10px;
+        min-width: clamp(70px, 10vw, 100px);
+    }
+
+    .pointage-gauche,
+    .pointage-droite {
+        font-size: clamp(20px, 2.5vw, 28px);
+        min-width: 26px;
+    }
+
+    .separateur-pointage {
+        font-size: clamp(16px, 2vw, 20px);
+    }
+
+    .images-laterales {
+        gap: 14px;
+    }
+
+    .images-laterales img {
+        height: auto;
+        border-radius: 10px;
+        transition: transform 0.2s;
+        user-select: none;
+    }
+
+    /* Grille vignettes 3 colonnes en tablette */
+    .grille-vignettes {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .vignette-overlay {
+        padding: 10px;
+    }
+
+    .vignette-overlay h5 {
+        font-size: clamp(9px, 1.8vw, 13px);
+        line-height: 1.3;
+        font-weight: 600;
+    }
+
+    .vignette:hover {
+        transform: scale(1.04);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    /* Texte carte plus grand en tablette */
+    .carte-texte h3 {
+        font-size: clamp(14px, 2vw, 18px);
+    }
+
+    /* === Cartes Actualités adaptées tablette === */
+    .cartes-actualites {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 colonnes en tablette */
+        gap: 16px;
+    }
+
+    .carte.actualites {
+        flex-direction: column;
+        /* Image en haut, texte en bas */
+        padding: 0;
+        border-radius: 12px;
+    }
+
+    .carte.actualites img {
+        width: 100%;
+        height: clamp(120px, 18vw, 180px);
+        border-radius: 12px 12px 0 0;
+    }
+
+    .carte.actualites .carte-texte {
+        padding: 14px 10px;
+    }
+
+    .carte.actualites .carte-texte h3::after {
+        width: 50px;
+        height: 3px;
+    }
+
+    .score-board,
+    .desktop-sidebar,
+    .desktop-extra-content {
+        display: block;
+    }
+
+    /* Pied de page tablette : 3 colonnes côte à côte */
+    .piedpage {
+        padding: 30px 20px 20px;
+    }
+
+    .piedpage-principal {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .piedpage-gauche {
+        text-align: left;
+        flex: 1;
+    }
+
+    .piedpage-centre {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .piedpage-droite {
+        text-align: right;
+        flex: 1;
+    }
+
+    .piedpage-messages {
+        text-align: right;
+    }
+
+    .piedpage-apps img {
+        width: 55px;
+        height: 55px;
+    }
+}
+
+/* ======================================================================================= */
+/* =================================== DESKTOP — ≥ 1024px ================================= */
+/* ===================================================================== ============*/
+
+@media (min-width: 1024px) {
+    .entete-site::before {
+        height: 9px;
+    }
+
+    /* Logo plus grand en desktop */
+    .logo img {
+        height: clamp(70px, 6vw, 90px);
+    }
+
+    /* Profil plus grand en desktop */
+    .entete-actions .profil {
+        width: clamp(52px, 5vw, 65px);
+        height: clamp(52px, 5vw, 65px);
+    }
+
+    .entete-actions .langue {
+        font-size: clamp(16px, 1.5vw, 22px);
+        padding: clamp(10px, 1vw, 14px) clamp(16px, 1.5vw, 24px);
+        gap: 10px;
+    }
+
+    .entete-actions .langue .icone-drapeau {
+        width: clamp(26px, 2.5vw, 34px);
+    }
+
+    /* Liens nav plus grands en desktop */
+    .nav-bureau {
+        gap: clamp(30px, 4vw, 50px);
+    }
+
+    .nav-bureau a {
+        font-size: clamp(22px, 2vw, 34px);
+    }
+
+    .entete-interieur {
+        padding: 0 25px;
+    }
+
+    /* Bannière - afficher image desktop */
+    .banniere-tablette {
+        display: none;
+    }
+
+    .banniere-bureau {
+        display: block;
+    }
+
+    .banniere-img {
+        height: clamp(350px, 30vw, 550px);
+    }
+
+    .container {
+        padding: 110px 50px 60px;
+    }
+
+    /* Contenu avec barre latérale - gap plus grand */
+    .contenu-avec-barre {
+        gap: 40px;
+    }
+
+    /* Images cartes encore plus grandes en desktop */
+    .carte img {
+        width: clamp(140px, 12vw, 180px);
+        height: clamp(95px, 8vw, 120px);
+    }
+
+    /* Images articles encore plus hautes en desktop */
+    .article img {
+        height: clamp(500px, 35vw, 600px);
+    }
+
+    /* Barre latérale plus large en desktop */
+    .barre-laterale {
+        width: clamp(280px, 26vw, 380px);
+    }
+
+    /* Tableau des scores desktop */
+    .tableau-scores {
+        padding: 22px 18px;
+        border-radius: 18px;
+    }
+
+    .titre-scores {
+        font-size: clamp(20px, 2vw, 28px);
+        margin-bottom: 16px;
+        padding-bottom: 14px;
+        letter-spacing: 3px;
+    }
+
+    .match {
+        padding: 16px 12px;
+        gap: 14px;
+    }
+
+    .equipe {
+        gap: 8px;
+    }
+
+    .equipe img {
+        width: clamp(52px, 4vw, 68px);
+        height: clamp(52px, 4vw, 68px);
+    }
+
+    .pointage {
+        gap: 10px;
+        padding: 0 16px;
+        min-width: clamp(100px, 10vw, 140px);
+    }
+
+    .pointage-gauche,
+    .pointage-droite {
+        font-size: clamp(26px, 2.5vw, 36px);
+        min-width: 36px;
+    }
+
+    .separateur-pointage {
+        font-size: clamp(20px, 2vw, 26px);
+    }
+
+    .images-laterales {
+        gap: 16px;
+    }
+
+
+    /* Grille vignettes 6 colonnes en desktop */
+    .grille-vignettes {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 20px;
+    }
+
+    .vignette-overlay {
+        padding: 12px 10px;
+    }
+
+    .vignette-overlay h5 {
+        font-size: clamp(10px, 0.9vw, 14px);
+        line-height: 1.35;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+    }
+
+    .vignette:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.55), 0 0 25px rgba(255, 255, 255, 0.06);
+    }
+
+    .vignette:hover img {
+        transform: scale(1.2);
+    }
+
+    /* Titres de section plus grands */
+    .titre-section {
+        font-size: clamp(20px, 2.5vw, 26px);
+        margin: 24px 2px 16px;
+    }
+
+    /* Texte carte plus grand en desktop */
+    .carte-texte h3 {
+        font-size: clamp(16px, 1.5vw, 22px);
+    }
+
+    /* === Cartes Actualités adaptées desktop === */
+    .cartes-actualites {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 colonnes côte à côte */
+        gap: 24px;
+    }
+
+    .carte.actualites {
+        /* Retour horizontal en desktop */
+        flex-direction: row;
+        padding: 16px;
+        border-radius: 14px;
+        min-height: 140px;
+    }
+
+    .carte.actualites img {
+        width: clamp(180px, 15vw, 260px);
+        height: clamp(120px, 12vw, 180px);
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+
+    .carte.actualites .carte-texte {
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .carte.actualites .carte-texte h3 {
+        font-size: clamp(18px, 1.8vw, 26px);
+    }
+
+    .carte.actualites .carte-texte h3::after {
+        width: 60px;
+        height: 4px;
+        margin: 12px auto 0;
+    }
+
+    /* Effet de survol plus prononcé en desktop */
+    .carte.actualites:hover {
+        transform: translateZ(12px) scale(1.025) rotateX(0.8deg) rotateY(0.8deg);
+        box-shadow: 0 18px 40px rgba(0, 55, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Texte bannière plus grand en desktop - même position que mobile */
+    .banniere-texte {
+        left: 50px;
+        bottom: 35%;
+    }
+
+    .banniere-texte h1 {
+        font-size: clamp(48px, 7vw, 80px);
+    }
+
+    .banniere-texte p {
+        font-size: clamp(18px, 3vw, 32px);
+    }
+
+    /* Pied de page desktop */
+    .piedpage {
+        padding: 40px 50px 25px;
+    }
+
+    .piedpage-apps img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .piedpage-messages p,
+    .piedpage-gauche p {
+        font-size: 14px;
+    }
+
+    .piedpage-gauche h4 {
+        font-size: 18px;
+    }
+
+    /* BOUTONS DROITE - DESKTOP */
+    .boutons-droite {
+        width: clamp(400px, 45vw, 750px);
+        max-width: 55%;
+        gap: clamp(12px, 2vw, 24px);
+    }
+
+    .boutons-droite a {
+        /* Image et texte côte à côte */
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: clamp(14px, 1.8vw, 24px) clamp(18px, 2vw, 30px);
+        border-radius: 12px;
+        gap: clamp(14px, 1.5vw, 22px);
+        min-height: clamp(65px, 8vw, 100px);
+    }
+
+    .boutons-droite a img:first-of-type {
+        width: clamp(40px, 4.5vw, 70px);
+        height: clamp(40px, 4.5vw, 70px);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .boutons-droite a img.img-survol {
+        width: clamp(40px, 4.5vw, 70px);
+        height: clamp(40px, 4.5vw, 70px);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0.85) rotate(-20deg);
+    }
+
+    .boutons-droite a h1 {
+        font-size: clamp(14px, 1.4vw, 22px);
+        letter-spacing: clamp(1.5px, 0.2vw, 3px);
+        text-align: center;
+    }
+
+    /* Hover desktop - texte disparaît, image au centre */
+    .boutons-droite a:hover h1 {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .boutons-droite a:hover img.img-survol {
+        transform: translate(-50%, -50%) scale(1.1) rotate(0deg);
+    }
+}

@@ -1,0 +1,64 @@
+@charset "utf-8";
+
+*, *::before, *::after {
+    cursor: none ;
+}
+
+html,body{
+    height:100%;
+}
+body{
+    margin:0;
+    font-family: var(--font-body);
+    background:var(--bg);
+    color:var(--white);
+    line-height:1.2;
+}
+
+
+/* ========== CURSEUR SPORTIF ========== */
+.curseur {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #0037FF;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.curseur::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: #3C88C4;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Hover - s'agrandit */
+.curseur-survol .curseur {
+    width: 30px;
+    height: 30px;
+    border-color: #3C88C4;
+    background: rgba(0, 55, 255, 0.1);
+    transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.curseur-survol .curseur::before {
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    transition: width 0.3s, height 0.3s, background 0.3s;
+}
+
+/* Clic - pulse */
+.curseur-actif .curseur {
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(60, 136, 196, 0.3);
+}

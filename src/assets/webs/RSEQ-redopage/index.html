@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tseng_YunYeh-TP3</title>
+    <!-- logo -->
+    <link rel="icon" href="imgs/logo.png" type="image/png">
+
+    <!-- Google Fonts - Polices sportives -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald&display=swap" rel="stylesheet">
+
+    <!-- Feuilles de styles -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header class="entete-site">
+        <div class="entete-interieur">
+            <!-- LOGO -->
+            <div class="logo">
+                <a href="index.html">
+                    <img src="imgs/logo.png" alt="Logo RSEQ">
+                </a>
+            </div>
+
+            <!-- NAVIGATION TABLETTE / DESKTOP -->
+            <nav class="nav-bureau">
+                <a href="#">Sports</a>
+                <a href="#">Profil</a>
+                <a href="#">Actualités</a>
+                <a href="#">Support</a>
+            </nav>
+
+
+            <!-- connexion + langue -->
+            <div class="entete-actions">
+                <button class="langue">
+                    <img src="https://s2.svgbox.net/flags-hd.svg?ic=fr&color=000" width="32" height="32"
+                        class="icone-drapeau">
+                    <span>FR</span>
+                </button>
+                <button class="profil" aria-label="profil">
+                    <img src="imgs/profile-icon.svg" alt="Profil" class="icone-profil">
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+
+    <main class="container">
+        <!-- Hero / Top image -->
+        <section class="banniere">
+            <img class="banniere-img banniere-mobile" src="imgs/04.png" alt="hero image">
+            <img class="banniere-img banniere-tablette" src="imgs/img-tablette.webp" alt="hero image tablette">
+            <img class="banniere-img banniere-bureau" src="imgs/img-desktop.webp" alt="hero image desktop">
+            <div class="banniere-texte">
+                <h1>RSEQ</h1>
+                <p>LE SPORT ÉTUDIANT. <br> PLUS VIVANT QUE JAMAIS.</p>
+            </div>
+        </section>
+
+        <!-- Sponsors défilants -->
+        <section class="commanditaires-defilant" aria-label="sponsors">
+            <div class="piste-commanditaires">
+                <!-- Premier groupe -->
+                <img src="imgs/champion-couleur.png" alt="Champion">
+                <img src="imgs/ligue-couleur.png" alt="Ligue">
+                <img src="imgs/nike-couleur.png" alt="Nike">
+                <img src="imgs/ligue2-couleur.png" alt="Ligue 2">
+                <img src="imgs/champion-couleur.png" alt="Champion">
+                <img src="imgs/ligue-couleur.png" alt="Ligue">
+                <img src="imgs/nike-couleur.png" alt="Nike">
+                <img src="imgs/ligue2-couleur.png" alt="Ligue 2">
+                <img src="imgs/champion-couleur.png" alt="Champion">
+                <img src="imgs/ligue-couleur.png" alt="Ligue">
+                <img src="imgs/nike-couleur.png" alt="Nike">
+                <img src="imgs/ligue2-couleur.png" alt="Ligue 2">
+                <!-- Duplication pour boucle infinie -->
+                <img src="imgs/reel1.svg" alt="Champion">
+                <img src="imgs/adidas.png" alt="Ligue">
+                <img src="imgs/nike-couleur.png" alt="Nike">
+                <img src="imgs/ligue2-couleur.png" alt="Ligue 2">
+                <img src="imgs/champion-couleur.png" alt="Champion">
+                <img src="imgs/ligue-couleur.png" alt="Ligue">
+                <img src="imgs/nike-couleur.png" alt="Nike">
+                <img src="imgs/ligue2-couleur.png" alt="Ligue 2">
+                <img src="imgs/champion-couleur.png" alt="Champion">
+                <img src="imgs/app1.svg" alt="app1">
+                <img src="imgs/app2.svg" alt="app2">
+                <img src="imgs/app3.svg" alt="app3">
+            </div>
+        </section>
+
+        <!-- Bande d'icônes - logos circulaires -->
+        <section class="bande-icones" aria-label="partenaires">
+            <div class="icones">
+                <div class="icone" style="background-image:url('imgs/reel1.svg')"></div>
+                <div class="icone" style="background-image:url('imgs/reel2.svg')"></div>
+                <div class="icone" style="background-image:url('imgs/reel3.svg')"></div>
+                <div class="icone" style="background-image:url('imgs/reel4.svg')"></div>
+                <div class="icone" style="background-image:url('imgs/reel5.svg')"></div>
+                <div class="icone" style="background-image:url('imgs/reel6.svg')"></div>
+                <div class="icone" style="background-image:url('imgs/reel7.svg')"></div>
+            </div>
+            <!-- BOUTONS À DROITE EN DESKTOP -->
+            <div class="boutons-droite">
+                <a href="#">
+                    <img src="imgs/champion-couleur.png" alt="champion-couleur">
+                    <h1>champion</h1>
+                    <img src="imgs/champion-blanc.png" alt="champion-blanc" class="img-survol">
+                </a>
+                <a href="#">
+                    <img src="imgs/ligue-couleur.png" alt="ligue-couleur">
+                    <h1>ligue</h1>
+                    <img src="imgs/ligue-blanc.png" alt="ligue-blanc" class="img-survol">
+                </a>
+                <a href="#">
+                    <img src="imgs/nike-couleur.png" alt="nike-couleur">
+                    <h1>parrainer</h1>
+                    <img src="imgs/nike-blanc.png" alt="nike-blanc" class="img-survol">
+                </a>
+                <a href="#">
+                    <img src="imgs/ligue2-couleur.png" alt="ligue2-couleur">
+                    <h1>ligue 2</h1>
+                    <img src="imgs/ligue2-blanc.png" alt="ligue2-blanc" class="img-survol">
+                </a>
+            </div>
+        </section>
+
+        <!-- CONTENU + SIDEBAR -->
+        <div class="contenu-avec-barre">
+            <!-- Contenu principal à gauche -->
+            <div class="contenu-principal">
+                <!-- Actualités cartes -->
+                <section class="titre-section">ACTUALITÉS</section>
+                <section class="cartes-actualites">
+                    <article class="carte actualites">
+                        <img src="imgs/12.png" alt="thumb">
+                        <div class="carte-texte">
+                            <h3>VICTOIRE DÉCISIVE</h3>
+                        </div>
+                    </article>
+
+                    <article class="carte actualites">
+                        <img src="imgs/11.jpg" alt="thumb">
+                        <div class="carte-texte">
+                            <h3>NOUVEAU RECORD !</h3>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- PETITES VIGNETTES -->
+                <section class="titre-section">VOUS POURRIEZ AIMER</section>
+                <section class="vignettes">
+                    <section class="grille-vignettes">
+                        <div class="vignette">
+                            <img src="imgs/05.png" alt="Basketball">
+                            <div class="vignette-overlay">
+                                <h5>🏀 Tournoi de Basketball – Samedi soir, viens vibrer au rythme des paniers et des
+                                    dunks spectaculaires !</h5>
+                            </div>
+                        </div>
+                        <div class="vignette">
+                            <img src="imgs/09.png" alt="Volleyball">
+                            <div class="vignette-overlay">
+                                <h5>⚽ Compétition de Soccer – Des équipes passionnées s’affrontent pour la victoire
+                                    finale.</h5>
+                            </div>
+                        </div>
+                        <div class="vignette">
+                            <img src="imgs/07.png" alt="Football">
+                            <div class="vignette-overlay">
+                                <h5>🏒 Match de Hockey – Une confrontation intense sur la glace, où chaque seconde
+                                    compte.</h5>
+                            </div>
+                        </div>
+                        <div class="vignette">
+                            <img src="imgs/01.jpg" alt="Natation">
+                            <div class="vignette-overlay">
+                                <h5>🎿 Course de Ski – Dévalez les pistes aux côtés des meilleurs athlètes.</h5>
+                            </div>
+                        </div>
+                        <div class="vignette">
+                            <img src="imgs/03.jpg" alt="Athlétisme">
+                            <div class="vignette-overlay">
+                                <h5>🏐 Tournoi de Volleyball – Énergie, esprit d’équipe et smashs impressionnants au
+                                    rendez-vous.</h5>
+                            </div>
+                        </div>
+                        <div class="vignette">
+                            <img src="imgs/06.png" alt="Hockey">
+                            <div class="vignette-overlay">
+                                <h5>🏊 Meeting de Natation – Vitesse, endurance et records à battre dans les bassins.
+                                </h5>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+                <!-- Articles list -->
+                <section class="titre-section">ARTICLES</section>
+                <section class="liste-articles">
+                    <article class="article">
+                        <h4>VICTOIRE DÉCISIVE ! NOUVEAU RECORD !</h4>
+                        <img src="imgs/10.jpg" alt="">
+                    </article>
+
+                    <article class="article">
+                        <h4>Saison en force : Les équipes se préparent</h4>
+                        <img src="imgs/08.jpg" alt="">
+                    </article>
+
+                    <article class="article">
+                        <h4>NOUVELLES RECRUES À SURVEILLER</h4>
+                        <img src="imgs/02.jpg" alt="">
+                    </article>
+                </section>
+            </div>
+
+            <!-- Sidebar à droite -->
+            <aside class="barre-laterale">
+                <div class="tableau-scores">
+                    <h3 class="titre-scores">SCORES EN DIRECT</h3>
+
+                    <!-- Match 1 -->
+                    <div class="match">
+                        <div class="equipe equipe-gauche">
+                            <img src="imgs/equipe1.svg" alt="Équipe 1">
+                        </div>
+                        <div class="pointage">
+                            <span class="pointage-gauche">3</span>
+                            <span class="separateur-pointage">-</span>
+                            <span class="pointage-droite">2</span>
+                        </div>
+                        <div class="equipe equipe-droite">
+                            <img src="imgs/equipe2.svg" alt="Équipe 2">
+                        </div>
+                    </div>
+
+                    <!-- Match 2 -->
+                    <div class="match">
+                        <div class="equipe equipe-gauche">
+                            <img src="imgs/equipe1.svg" alt="Équipe 1">
+                        </div>
+                        <div class="pointage">
+                            <span class="pointage-gauche">1</span>
+                            <span class="separateur-pointage">-</span>
+                            <span class="pointage-droite">1</span>
+                        </div>
+                        <div class="equipe equipe-droite">
+                            <img src="imgs/equipe2.svg" alt="Équipe 2">
+                        </div>
+                    </div>
+
+                    <!-- Match 3 -->
+                    <div class="match">
+                        <div class="equipe equipe-gauche">
+                            <img src="imgs/equipe1.svg" alt="Équipe 1">
+                        </div>
+                        <div class="pointage">
+                            <span class="pointage-gauche">4</span>
+                            <span class="separateur-pointage">-</span>
+                            <span class="pointage-droite">0</span>
+                        </div>
+                        <div class="equipe equipe-droite">
+                            <img src="imgs/equipe2.svg" alt="Équipe 2">
+                        </div>
+                    </div>
+
+                    <!-- Match 4 -->
+                    <div class="match">
+                        <div class="equipe equipe-gauche">
+                            <img src="imgs/equipe1.svg" alt="Équipe 1">
+                        </div>
+                        <div class="pointage">
+                            <span class="pointage-gauche">2</span>
+                            <span class="separateur-pointage">-</span>
+                            <span class="pointage-droite">3</span>
+                        </div>
+                        <div class="equipe equipe-droite">
+                            <img src="imgs/equipe2.svg" alt="Équipe 2">
+                        </div>
+                    </div>
+                </div>
+                <!-- IMAGES LATÉRALES -->
+                <div class="images-laterales">
+                    <img src="imgs/ligue.png" alt="ligue">
+                    <img src="imgs/final.png" alt="final">
+                    <img src="imgs/sponsor.jpg" alt="sponsor">
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Navigation mobile (bas de page) -->
+    <nav class="nav-mobile" role="navigation" aria-label="navigation">
+        <button class="bouton-nav">
+            <img src="imgs/sport.svg" alt="Sports" class="icone-nav">
+            <span>Sports</span>
+        </button>
+        <button class="bouton-nav">
+            <img src="imgs/profile.svg" alt="" class="icone-nav">
+            <span>Profile</span>
+        </button>
+        <button class="bouton-nav">
+            <img src="imgs/actualite.svg" alt="actualites" class="icone-nav">
+            <span>Actualités</span>
+        </button>
+        <button class="bouton-nav">
+            <img src="imgs/support.svg" alt="support" class="icone-nav">
+            <span>Support</span>
+        </button>
+    </nav>
+
+    <!-- Pied de page -->
+    <footer class="piedpage">
+        <div class="piedpage-interieur">
+            <!-- Section principale : gauche + milieu + droite -->
+            <div class="piedpage-principal">
+                <!-- GAUCHE : Support -->
+                <div class="piedpage-gauche">
+                    <h4>Support</h4>
+                    <p><strong>Adresse:</strong> 1111, Maisonneuve, Montréal, QC</p>
+                    <p><strong>Email:</strong> <a href="mailto:support@rseq.ca">support@rseq.ca</a></p>
+                    <p><strong>Téléphone:</strong> <a href="tel:+15141234567">+1 (111) 123-4567</a></p>
+                </div>
+
+                <!-- MILIEU : Apps -->
+                <div class="piedpage-centre">
+                    <div class="piedpage-apps">
+                        <img src="imgs/app1.svg" alt="App 1">
+                        <img src="imgs/app2.svg" alt="App 2">
+                        <img src="imgs/app3.svg" alt="App 3">
+                    </div>
+                </div>
+
+                <!-- les Messages -->
+                <div class="piedpage-droite">
+                    <div class="piedpage-messages">
+                        <p>Téléchargez notre application mobile</p>
+                        <p>Restez connectés avec le sport étudiant!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Droits d'auteur -->
+            <p class="mentions-legales">&copy; RSEQ — Tseng YunYeh</p>
+
+            <!-- Ligne séparatrice -->
+            <hr class="separateur-piedpage">
+
+            <!-- 5 icônes réseaux sociaux -->
+            <div class="piedpage-reseaux">
+                <a href="https://instagram.com"><img src="imgs/ins.svg" alt="Instagram"></a>
+                <a href="https://twitch.tv"><img src="imgs/twitch.svg" alt="Twitch"></a>
+                <a href="https://discord.com"><img src="imgs/discord.svg" alt="Discord"></a>
+                <a href="https://tiktok.com"><img src="imgs/tiktok.svg" alt="TikTok"></a>
+                <a href="https://twitter.com"><img src="imgs/twitter.svg" alt="Twitter"></a>
+            </div>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <script src="js/main.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+{
+    "nav": {
+        "home": "首頁",
+        "about": "關於我",
+        "portfolio": "作品集",
+        "contact": "聯繫我"
+    },
+    "home": {
+        "greeting": "你好，我是",
+        "role": "創意開發者 & 設計師",
+        "viewWork": "查看作品",
+        "downloadCV": "下載簡歷",
+        "featuredWork": "精選作品",
+        "viewAllProjects": "查看所有項目"
+    },
+    "about": {
+        "title": "關於我",
+        "subtitle": "我的旅程、技能和熱情。",
+        "whoIAm": "我是誰",
+        "description": "我是一名充滿熱情的開發者，對設計有敏銳的眼光。我專注於構建響應式、用戶友好的網站和應用程序。憑藉設計和工程背景，我致力於連接美學與功能。",
+        "mySkills": "我的技能",
+        "letsTalk": "讓我們談談",
+        "experience": "工作經歷",
+        "exp1_date": "2023 - 至今",
+        "exp1_role": "高級開發者",
+        "exp1_company": "Tech Solutions Inc.",
+        "exp1_desc": "領導前端開發並指導初級開發者。",
+        "exp2_date": "2021 - 2023",
+        "exp2_role": "網頁設計師",
+        "exp2_company": "Creative Studio",
+        "exp2_desc": "為各種客戶項目設計並實施用戶界面。"
+    },
+    "portfolio": {
+        "title": "我的作品",
+        "subtitle": "近期項目精選。",
+        "filterAll": "全部",
+        "clickToDownload": "點擊下載",
+        "viewLive": "查看實時"
+    },
+    "contact": {
+        "title": "聯繫方式",
+        "subtitle": "有項目想法嗎？讓我們一起合作。",
+        "location": "地點",
+        "email": "郵箱",
+        "phone": "電話",
+        "formName": "姓名",
+        "formEmail": "郵箱",
+        "formSubject": "主題",
+        "formMessage": "留言",
+        "sendMessage": "發送信息"
+    },
+    "footer": {
+        "rights": "© 2025 MyPortfolio. 保留所有權利。",
+        "description": "創造啟發和創新的數字體驗。讓我們一起打造非凡的作品。",
+        "searchProjects": "搜索項目",
+        "searchText": "在我的作品集中查找特定項目。",
+        "searchPlaceholder": "搜索項目...",
+        "connect": "聯繫我",
+        "connectText": "在社交媒體上關注我，獲取最新動態和幕後內容。",
+        "madeWith": "用 ❤️ 和創意製作"
+    }
+}
