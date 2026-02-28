@@ -50,7 +50,10 @@
         "formEmail": "Correo",
         "formSubject": "Asunto",
         "formMessage": "Mensaje",
-        "sendMessage": "Enviar Mensaje"
+        "sendMessage": "Enviar Mensaje",
+        "sending": "Enviando...",
+        "successMessage": "¡Mensaje enviado con éxito!",
+        "errorMessage": "Error al enviar. Por favor, inténtalo de nuevo."
     },
     "footer": {
         "rights": "© 2025 MyPortfolio. Todos los derechos reservados.",

@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo, createContext, useContext } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef, createContext, useContext } from 'react'
+import emailjs from '@emailjs/browser'
 import en from './i18n/en.json'
 import fr from './i18n/fr.json'
 import es from './i18n/es.json'
@@ -53,6 +54,60 @@ const SKILLS = [
   'Video Editing', '3D Rendering', 'UI/UX Design',
   'Responsive Design', 'Adobe Suite', 'Git',
 ]
+const CONTACT_INFO = [
+  { icon: '📍', key: 'location', value: 'Montréal, Canada' },
+  { icon: '📧', key: 'email', value: 'tsengyunyeh@gmail.com', href: 'mailto:tsengyunyeh@gmail.com' },
+  { icon: '📱', key: 'phone', value: '+1 (438) 509-8158', href: 'tel:+14385098158' },
+]
+
+// EmailJS config — you need to set these up at https://www.emailjs.com
+const EMAILJS_SERVICE_ID = 'service_portfolio'
+const EMAILJS_TEMPLATE_ID = 'template_contact'
+const EMAILJS_PUBLIC_KEY = 't9trF3SmgKE8L7cYG' // Replace with your EmailJS public key
+
+/* ===== Animated Counter ===== */
+function CountUp({ end, suffix = '', duration = 2000 }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef(null)
+  const counted = useRef(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !counted.current) {
+          counted.current = true
+          const num = typeof end === 'string' ? parseInt(end, 10) : end
+          if (isNaN(num)) { setCount(end); return }
+          const start = performance.now()
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1)
+            const eased = 1 - Math.pow(1 - progress, 3) // ease-out cubic
+            setCount(Math.floor(eased * num))
+            if (progress < 1) requestAnimationFrame(step)
+          }
+          requestAnimationFrame(step)
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [end, duration])
+
+  return <span ref={ref}>{count}{suffix}</span>
+}
+
+/* ===== Creative Nav Link ===== */
+function NavLink({ text, isActive, onClick }) {
+  return (
+    <button className={`nav-link ${isActive ? 'active' : ''}`} onClick={onClick}>
+      <span className="nav-link-label">{text}</span>
+      <span className="nav-link-line" />
+    </button>
+  )
+}
 
 /* ===== Navbar ===== */
 function Navbar({ activeSection, scrolled, onScrollTo }) {
@@ -61,14 +116,28 @@ function Navbar({ activeSection, scrolled, onScrollTo }) {
 
   const handleNav = (id) => { onScrollTo(id); setMobileNav(false) }
 
+  // Close mobile nav on outside click
+  useEffect(() => {
+    if (!mobileNav) return
+    const close = (e) => {
+      if (!e.target.closest('.nav-links') && !e.target.closest('.nav-toggle')) setMobileNav(false)
+    }
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [mobileNav])
+
+  // Lock body scroll when mobile nav open
+  useEffect(() => {
+    document.body.style.overflow = mobileNav ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileNav])
+
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="nav-logo">YunYeh.</div>
+      <div className="nav-logo" onClick={() => handleNav('home')}>YunYeh.</div>
       <div className={`nav-links ${mobileNav ? 'open' : ''}`}>
         {SECTIONS.map((s) => (
-          <button key={s} className={`nav-link ${activeSection === s ? 'active' : ''}`} onClick={() => handleNav(s)}>
-            {i18n.nav[s]}
-          </button>
+          <NavLink key={s} text={i18n.nav[s]} isActive={activeSection === s} onClick={() => handleNav(s)} />
         ))}
         <div className="lang-selector">
           {LANGUAGES.map((l) => (
@@ -78,7 +147,8 @@ function Navbar({ activeSection, scrolled, onScrollTo }) {
           ))}
         </div>
       </div>
-      <button className={`nav-toggle ${mobileNav ? 'open' : ''}`} onClick={() => setMobileNav(!mobileNav)}>
+      {mobileNav && <div className="nav-overlay" onClick={() => setMobileNav(false)} />}
+      <button className={`nav-toggle ${mobileNav ? 'open' : ''}`} onClick={() => setMobileNav(!mobileNav)} aria-label="Menu">
         <span /><span /><span />
       </button>
     </nav>
@@ -89,6 +159,12 @@ function Navbar({ activeSection, scrolled, onScrollTo }) {
 function Hero({ onScrollTo, totalProjects, totalCategories }) {
   const { i18n, tObj } = useLanguage()
   const cvUrl = `${BASE}${tObj(projectsData.cv)}`
+
+  const stats = useMemo(() => [
+    { value: totalProjects, suffix: '+', label: i18n.home.statProjects || 'Projects' },
+    { value: totalCategories, suffix: '', label: i18n.home.statCategories || 'Categories' },
+    { value: LANGUAGES.length, suffix: '', label: i18n.home.statLanguages || 'Languages' },
+  ], [totalProjects, totalCategories, i18n])
 
   return (
     <section id="home" className="hero">
@@ -111,13 +187,9 @@ function Hero({ onScrollTo, totalProjects, totalCategories }) {
             </a>
           </div>
           <div className="hero-stats">
-            {[
-              { value: `${totalProjects}+`, label: i18n.home.statProjects || 'Projects' },
-              { value: totalCategories, label: i18n.home.statCategories || 'Categories' },
-              { value: 4, label: i18n.home.statLanguages || 'Languages' },
-            ].map(({ value, label }) => (
+            {stats.map(({ value, suffix, label }) => (
               <div key={label} className="hero-stat">
-                <div className="hero-stat-number">{value}</div>
+                <div className="hero-stat-number"><CountUp end={value} suffix={suffix} duration={2000} /></div>
                 <div className="hero-stat-label">{label}</div>
               </div>
             ))}
@@ -188,17 +260,17 @@ function ProjectCard({ project, theme, onClick, index }) {
   const { tObj } = useLanguage()
   const title = tObj(project.title)
 
-  const getThumbnail = () => {
+  const thumbnail = useMemo(() => {
     if (project.images?.length) return <img src={`${BASE}${project.images[0]}`} alt={title} loading="lazy" />
     if (project.image) return <img src={`${BASE}${project.image}`} alt={title} loading="lazy" />
     if (project.type === 'video' && project.src) return <video src={`${BASE}${project.src}`} muted preload="metadata" />
     return <div className="project-placeholder">{CATEGORY_ICONS[theme.id] || '📁'}</div>
-  }
+  }, [project, theme.id, title])
 
   return (
     <div className="project-card" onClick={() => onClick(project, theme)} style={{ animationDelay: `${index * 0.08}s` }}>
       <div className="project-thumbnail">
-        {getThumbnail()}
+        {thumbnail}
         <div className="project-overlay">
           <div className="project-overlay-icon">{OVERLAY_ICONS[project.type] || '👁'}</div>
         </div>
@@ -207,7 +279,7 @@ function ProjectCard({ project, theme, onClick, index }) {
         <div className="project-category-badge">{tObj(theme.title)}</div>
         <h3 className="project-title">{title}</h3>
         <p className="project-desc">{tObj(project.description)}</p>
-        {project.technologies && (
+        {project.technologies?.length > 0 && (
           <div className="project-tech">
             {project.technologies.map((tech, i) => <span key={i} className="tech-tag">{tech}</span>)}
           </div>
@@ -268,7 +340,7 @@ function ProjectModal({ project, theme, onClose }) {
     return () => { document.removeEventListener('keydown', handleKey); document.body.style.overflow = '' }
   }, [onClose, project])
 
-  const renderMedia = () => {
+  const media = useMemo(() => {
     if (project.type === 'video' && project.src)
       return <video src={`${BASE}${project.src}`} controls autoPlay />
     if (project.type === 'web' && project.link) {
@@ -281,22 +353,22 @@ function ProjectModal({ project, theme, onClose }) {
     if (project.type === 'image-gallery' && project.images)
       return <img src={`${BASE}${project.images[galleryIdx]}`} alt={`${title} ${galleryIdx + 1}`} />
     return null
-  }
+  }, [project, title, galleryIdx])
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
-        <div className="modal-media">{renderMedia()}</div>
+        <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+        <div className="modal-media">{media}</div>
         {project.type === 'image-gallery' && project.images?.length > 1 && (
           <div className="gallery-nav">
-            <button className="gallery-btn" onClick={() => setGalleryIdx((p) => (p - 1 + project.images.length) % project.images.length)}>‹</button>
+            <button className="gallery-btn" onClick={() => setGalleryIdx((p) => (p - 1 + project.images.length) % project.images.length)} aria-label="Previous">‹</button>
             <div className="gallery-dots">
               {project.images.map((_, i) => (
                 <span key={i} className={`gallery-dot ${i === galleryIdx ? 'active' : ''}`} onClick={() => setGalleryIdx(i)} />
               ))}
             </div>
-            <button className="gallery-btn" onClick={() => setGalleryIdx((p) => (p + 1) % project.images.length)}>›</button>
+            <button className="gallery-btn" onClick={() => setGalleryIdx((p) => (p + 1) % project.images.length)} aria-label="Next">›</button>
           </div>
         )}
         <div className="modal-body">
@@ -323,6 +395,23 @@ function ProjectModal({ project, theme, onClose }) {
 /* ===== Contact ===== */
 function Contact() {
   const { i18n } = useLanguage()
+  const formRef = useRef(null)
+  const [formState, setFormState] = useState({ status: 'idle', message: '' })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setFormState({ status: 'sending', message: '' })
+
+    try {
+      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formRef.current, EMAILJS_PUBLIC_KEY)
+      setFormState({ status: 'success', message: i18n.contact.successMessage || 'Message sent successfully!' })
+      formRef.current.reset()
+      setTimeout(() => setFormState({ status: 'idle', message: '' }), 5000)
+    } catch {
+      setFormState({ status: 'error', message: i18n.contact.errorMessage || 'Failed to send. Please try again.' })
+      setTimeout(() => setFormState({ status: 'idle', message: '' }), 5000)
+    }
+  }
 
   return (
     <section id="contact" className="contact-section">
@@ -334,28 +423,48 @@ function Contact() {
         </div>
         <div className="contact-grid">
           <div>
-            {[
-              { icon: '📍', label: i18n.contact.location, value: 'Québec, Canada' },
-              { icon: '📧', label: i18n.contact.email, value: 'yunyeh.tseng@email.com' },
-              { icon: '📱', label: i18n.contact.phone, value: '+1 (XXX) XXX-XXXX' },
-            ].map(({ icon, label, value }) => (
-              <div key={label} className="contact-info-card">
+            {CONTACT_INFO.map(({ icon, key, value, href }) => (
+              <div key={key} className="contact-info-card">
                 <div className="contact-icon">{icon}</div>
                 <div>
-                  <div className="contact-info-label">{label}</div>
-                  <div className="contact-info-value">{value}</div>
+                  <div className="contact-info-label">{i18n.contact[key]}</div>
+                  {href ? (
+                    <a href={href} className="contact-info-value contact-link">{value}</a>
+                  ) : (
+                    <div className="contact-info-value">{value}</div>
+                  )}
                 </div>
               </div>
             ))}
           </div>
-          <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+          <form ref={formRef} className="contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
-              <div className="form-group"><input type="text" placeholder={i18n.contact.formName} /></div>
-              <div className="form-group"><input type="email" placeholder={i18n.contact.formEmail} /></div>
+              <div className="form-group">
+                <input type="text" name="from_name" placeholder={i18n.contact.formName} required />
+              </div>
+              <div className="form-group">
+                <input type="email" name="from_email" placeholder={i18n.contact.formEmail} required />
+              </div>
             </div>
-            <div className="form-group"><input type="text" placeholder={i18n.contact.formSubject} /></div>
-            <div className="form-group"><textarea placeholder={i18n.contact.formMessage} /></div>
-            <button type="submit" className="btn btn-primary">{i18n.contact.sendMessage} →</button>
+            <div className="form-group">
+              <input type="text" name="subject" placeholder={i18n.contact.formSubject} required />
+            </div>
+            <div className="form-group">
+              <textarea name="message" placeholder={i18n.contact.formMessage} required />
+            </div>
+
+            {formState.message && (
+              <div className={`form-feedback ${formState.status}`}>
+                {formState.status === 'success' ? '✓' : '✕'} {formState.message}
+              </div>
+            )}
+
+            <button type="submit" className="btn btn-primary" disabled={formState.status === 'sending'}>
+              {formState.status === 'sending'
+                ? (i18n.contact.sending || 'Sending...')
+                : `${i18n.contact.sendMessage} →`
+              }
+            </button>
           </form>
         </div>
       </div>
@@ -390,7 +499,7 @@ function Footer({ searchQuery, setSearchQuery, onSearch }) {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && searchQuery.trim()) onSearch() }}
             />
-            <button onClick={onSearch}>🔍</button>
+            <button onClick={onSearch} aria-label="Search">🔍</button>
           </div>
         </div>
         <div className="footer-column">
@@ -417,7 +526,7 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const { themes } = projectsData
-  const totalProjects = themes.reduce((acc, th) => acc + th.projects.length, 0)
+  const totalProjects = useMemo(() => themes.reduce((acc, th) => acc + th.projects.length, 0), [themes])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -427,7 +536,7 @@ function AppContent() {
         if (el && el.getBoundingClientRect().top < 200) { setActiveSection(id); break }
       }
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -435,25 +544,26 @@ function AppContent() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
-  const getFilteredProjects = () => {
+  const filteredProjects = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
     return themes
       .filter((th) => activeFilter === 'all' || activeFilter === th.id)
       .flatMap((th) => th.projects.map((p) => ({ project: p, theme: th })))
       .filter(({ project }) => !q || `${tObj(project.title)} ${tObj(project.description)}`.toLowerCase().includes(q))
-  }
+  }, [themes, activeFilter, searchQuery, tObj])
 
   const openModal = useCallback((project, theme) => { setModalProject(project); setModalTheme(theme) }, [])
   const closeModal = useCallback(() => { setModalProject(null); setModalTheme(null) }, [])
+  const handleFooterSearch = useCallback(() => { setActiveFilter('all'); scrollTo('portfolio') }, [scrollTo])
 
   return (
     <div className="App">
       <Navbar activeSection={activeSection} scrolled={scrolled} onScrollTo={scrollTo} />
       <Hero onScrollTo={scrollTo} totalProjects={totalProjects} totalCategories={themes.length} />
       <About onScrollTo={scrollTo} />
-      <Portfolio themes={themes} activeFilter={activeFilter} setActiveFilter={setActiveFilter} filteredProjects={getFilteredProjects()} onOpenModal={openModal} />
+      <Portfolio themes={themes} activeFilter={activeFilter} setActiveFilter={setActiveFilter} filteredProjects={filteredProjects} onOpenModal={openModal} />
       <Contact />
-      <Footer searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={() => { setActiveFilter('all'); scrollTo('portfolio') }} />
+      <Footer searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={handleFooterSearch} />
       {modalProject && modalTheme && <ProjectModal project={modalProject} theme={modalTheme} onClose={closeModal} />}
     </div>
   )
