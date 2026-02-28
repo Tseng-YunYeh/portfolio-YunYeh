@@ -11,7 +11,10 @@
         "viewWork": "View Work",
         "downloadCV": "Download CV",
         "featuredWork": "Featured Work",
-        "viewAllProjects": "View All Projects"
+        "viewAllProjects": "View All Projects",
+        "statProjects": "Projects",
+        "statCategories": "Categories",
+        "statLanguages": "Languages"
     },
     "about": {
         "title": "About Me",

@@ -11,7 +11,10 @@
         "viewWork": "Ver Trabajo",
         "downloadCV": "Descargar CV",
         "featuredWork": "Trabajos Destacados",
-        "viewAllProjects": "Ver Todos los Proyectos"
+        "viewAllProjects": "Ver Todos los Proyectos",
+        "statProjects": "Proyectos",
+        "statCategories": "Categorías",
+        "statLanguages": "Idiomas"
     },
     "about": {
         "title": "Sobre Mí",

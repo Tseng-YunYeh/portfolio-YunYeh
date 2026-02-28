@@ -11,7 +11,10 @@
         "viewWork": "查看作品",
         "downloadCV": "下載簡歷",
         "featuredWork": "精選作品",
-        "viewAllProjects": "查看所有項目"
+        "viewAllProjects": "查看所有项目",
+        "statProjects": "项目",
+        "statCategories": "类别",
+        "statLanguages": "语言"
     },
     "about": {
         "title": "關於我",
