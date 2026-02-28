@@ -61,8 +61,8 @@ const CONTACT_INFO = [
 ]
 
 // EmailJS config — you need to set these up at https://www.emailjs.com
-const EMAILJS_SERVICE_ID = 'service_portfolio'
-const EMAILJS_TEMPLATE_ID = 'template_contact'
+const EMAILJS_SERVICE_ID = 'service_4dpqq8q'
+const EMAILJS_TEMPLATE_ID = 'template_tdit6uf'
 const EMAILJS_PUBLIC_KEY = 't9trF3SmgKE8L7cYG' // Replace with your EmailJS public key
 
 /* ===== Animated Counter ===== */
@@ -407,7 +407,8 @@ function Contact() {
       setFormState({ status: 'success', message: i18n.contact.successMessage || 'Message sent successfully!' })
       formRef.current.reset()
       setTimeout(() => setFormState({ status: 'idle', message: '' }), 5000)
-    } catch {
+    } catch (err) {
+      console.error('EmailJS error:', err)
       setFormState({ status: 'error', message: i18n.contact.errorMessage || 'Failed to send. Please try again.' })
       setTimeout(() => setFormState({ status: 'idle', message: '' }), 5000)
     }
