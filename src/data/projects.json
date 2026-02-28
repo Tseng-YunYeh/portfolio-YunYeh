@@ -262,24 +262,6 @@
           "src": "pdfs/web-redo-presentation.pdf",
           "image": "imgs/web-redo.png",
           "technologies": ["Canva"]
-        },
-        {
-          "title": {
-            "en": "Le Petit Messager",
-            "fr": "Le Petit Messager",
-            "es": "Le Petit Messager",
-            "zh": "Le Petit Messager"
-          },
-          "description": {
-            "en": "A creative document project – Le Petit Messager.",
-            "fr": "Un projet de document créatif – Le Petit Messager.",
-            "es": "Un proyecto de documento creativo – Le Petit Messager.",
-            "zh": "一個創意文檔項目 – Le Petit Messager。"
-          },
-          "type": "pdf",
-          "src": "pdfs/Le-Petit-Messager.pdf",
-          "image": "imgs/Le-petit-messager.png",
-          "technologies": ["Canva"]
         }
       ]
     },
