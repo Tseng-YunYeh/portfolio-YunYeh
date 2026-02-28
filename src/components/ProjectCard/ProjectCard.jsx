@@ -5,32 +5,16 @@ import './ProjectCard.css'
 const BASE = import.meta.env.BASE_URL
 
 export default function ProjectCard({ project, theme, onClick, index }) {
-  const { lang, tObj } = useLanguage()
-  const title = tObj(project.title)
-  const desc = tObj(project.description)
-  const categoryTitle = tObj(theme.title)
+  const { tObj } = useLanguage()
+  const [title, desc, categoryTitle] = [project.title, project.description, theme.title].map(tObj)
+
+  const overlayIcons = { video: '▶', web: '↗', pdf: '📥', 'image-gallery': '🖼' }
 
   const getThumbnail = () => {
-    if (project.images && project.images.length > 0) {
-      return <img src={`${BASE}${project.images[0]}`} alt={title} loading="lazy" />
-    }
-    if (project.image) {
-      return <img src={`${BASE}${project.image}`} alt={title} loading="lazy" />
-    }
-    if (project.type === 'video' && project.src) {
-      return <video src={`${BASE}${project.src}`} muted preload="metadata" />
-    }
+    if (project.images?.length) return <img src={`${BASE}${project.images[0]}`} alt={title} loading="lazy" />
+    if (project.image) return <img src={`${BASE}${project.image}`} alt={title} loading="lazy" />
+    if (project.type === 'video' && project.src) return <video src={`${BASE}${project.src}`} muted preload="metadata" />
     return <div className="project-placeholder">{categoryIcons[theme.id] || '📁'}</div>
-  }
-
-  const overlayIcon = () => {
-    switch (project.type) {
-      case 'video': return '▶'
-      case 'web': return '↗'
-      case 'pdf': return '📥'
-      case 'image-gallery': return '🖼'
-      default: return '👁'
-    }
   }
 
   return (
@@ -38,7 +22,7 @@ export default function ProjectCard({ project, theme, onClick, index }) {
       <div className="project-thumbnail">
         {getThumbnail()}
         <div className="project-overlay">
-          <div className="project-overlay-icon">{overlayIcon()}</div>
+          <div className="project-overlay-icon">{overlayIcons[project.type] || '👁'}</div>
         </div>
       </div>
       <div className="project-info">

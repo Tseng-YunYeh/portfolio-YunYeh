@@ -10,9 +10,7 @@ export default function Hero({ onScrollTo, totalProjects, totalCategories }) {
   return (
     <section id="home" className="hero">
       <div className="hero-bg">
-        <div className="hero-blob hero-blob-1" />
-        <div className="hero-blob hero-blob-2" />
-        <div className="hero-blob hero-blob-3" />
+        {[1, 2, 3].map((n) => <div key={n} className={`hero-blob hero-blob-${n}`} />)}
       </div>
       <div className="hero-content">
         <div className="hero-text">
@@ -35,18 +33,16 @@ export default function Hero({ onScrollTo, totalProjects, totalCategories }) {
             </a>
           </div>
           <div className="hero-stats">
-            <div className="hero-stat">
-              <div className="hero-stat-number">{totalProjects}+</div>
-              <div className="hero-stat-label">{i18n.home.statProjects || 'Projects'}</div>
-            </div>
-            <div className="hero-stat">
-              <div className="hero-stat-number">{totalCategories}</div>
-              <div className="hero-stat-label">{i18n.home.statCategories || 'Categories'}</div>
-            </div>
-            <div className="hero-stat">
-              <div className="hero-stat-number">4</div>
-              <div className="hero-stat-label">{i18n.home.statLanguages || 'Languages'}</div>
-            </div>
+            {[
+              { value: `${totalProjects}+`, label: i18n.home.statProjects || 'Projects' },
+              { value: totalCategories, label: i18n.home.statCategories || 'Categories' },
+              { value: 4, label: i18n.home.statLanguages || 'Languages' },
+            ].map(({ value, label }) => (
+              <div key={label} className="hero-stat">
+                <div className="hero-stat-number">{value}</div>
+                <div className="hero-stat-label">{label}</div>
+              </div>
+            ))}
           </div>
         </div>
         <div className="hero-visual">

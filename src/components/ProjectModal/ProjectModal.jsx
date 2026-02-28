@@ -5,10 +5,9 @@ import './ProjectModal.css'
 const BASE = import.meta.env.BASE_URL
 
 export default function ProjectModal({ project, theme, onClose }) {
-  const { lang, i18n, tObj } = useLanguage()
+  const { i18n, tObj } = useLanguage()
   const [galleryIdx, setGalleryIdx] = useState(0)
-  const title = tObj(project.title)
-  const desc = tObj(project.description)
+  const [title, desc] = [project.title, project.description].map(tObj)
 
   useEffect(() => {
     const handleKey = (e) => {

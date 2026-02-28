@@ -9,16 +9,19 @@ const skills = [
   'Responsive Design', 'Adobe Suite', 'Git'
 ]
 
+const experiences = [1, 2]
+
 export default function About({ onScrollTo }) {
   const { i18n } = useLanguage()
+  const a = i18n.about
 
   return (
     <section id="about" className="about-section">
       <div className="section">
         <div className="section-header">
-          <span className="section-badge">✦ {i18n.about.title}</span>
-          <h2 className="section-title">{i18n.about.whoIAm}</h2>
-          <p className="section-subtitle">{i18n.about.subtitle}</p>
+          <span className="section-badge">✦ {a.title}</span>
+          <h2 className="section-title">{a.whoIAm}</h2>
+          <p className="section-subtitle">{a.subtitle}</p>
         </div>
         <div className="about-grid">
           <div className="about-image-wrap">
@@ -26,40 +29,31 @@ export default function About({ onScrollTo }) {
             <div className="about-image-decoration" />
           </div>
           <div className="about-content">
-            <h3>{i18n.about.whoIAm}</h3>
-            <p>{i18n.about.description}</p>
+            <h3>{a.whoIAm}</h3>
+            <p>{a.description}</p>
 
-            <h3>{i18n.about.mySkills}</h3>
+            <h3>{a.mySkills}</h3>
             <div className="skills-grid">
-              {skills.map((skill, i) => (
-                <span key={i} className="skill-tag">{skill}</span>
+              {skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)}
+            </div>
+
+            <h3>{a.experience}</h3>
+            <div className="experience-list">
+              {experiences.map((n) => (
+                <div key={n} className="experience-item">
+                  <div className="exp-dot" />
+                  <div>
+                    <div className="exp-date">{a[`exp${n}_date`]}</div>
+                    <div className="exp-role">{a[`exp${n}_role`]}</div>
+                    <div className="exp-company">{a[`exp${n}_company`]}</div>
+                    <div className="exp-desc">{a[`exp${n}_desc`]}</div>
+                  </div>
+                </div>
               ))}
             </div>
 
-            <h3>{i18n.about.experience}</h3>
-            <div className="experience-list">
-              <div className="experience-item">
-                <div className="exp-dot" />
-                <div>
-                  <div className="exp-date">{i18n.about.exp1_date}</div>
-                  <div className="exp-role">{i18n.about.exp1_role}</div>
-                  <div className="exp-company">{i18n.about.exp1_company}</div>
-                  <div className="exp-desc">{i18n.about.exp1_desc}</div>
-                </div>
-              </div>
-              <div className="experience-item">
-                <div className="exp-dot" />
-                <div>
-                  <div className="exp-date">{i18n.about.exp2_date}</div>
-                  <div className="exp-role">{i18n.about.exp2_role}</div>
-                  <div className="exp-company">{i18n.about.exp2_company}</div>
-                  <div className="exp-desc">{i18n.about.exp2_desc}</div>
-                </div>
-              </div>
-            </div>
-
             <button className="btn btn-primary" onClick={() => onScrollTo('contact')}>
-              {i18n.about.letsTalk} →
+              {a.letsTalk} →
             </button>
           </div>
         </div>

@@ -53,7 +53,8 @@
             "zh": "機器人模型的電影展示，展示了3D渲染和視頻編輯技能。"
           },
           "type": "video",
-          "src": "videos/robot.mp4"
+          "src": "videos/robot.mp4",
+          "technologies": ["After Effects", "Maya"]
         },
         {
           "title": {
@@ -69,7 +70,25 @@
             "zh": "為一個虛構電影項目剪輯的激動人心的預告片。"
           },
           "type": "video",
-          "src": "videos/Trailer.mp4"
+          "src": "videos/Trailer.mp4",
+          "technologies": ["Adobe Premiere Pro"]
+        },
+        {
+          "title": {
+            "en": "Loup-Garou: La Nuit",
+            "fr": "Loup-Garou : La Nuit",
+            "es": "Loup-Garou: La Noche",
+            "zh": "狼人：夜晚"
+          },
+          "description": {
+            "en": "A short animated film crafted in After Effects, with all environments and characters illustrated in Adobe Illustrator.",
+            "fr": "Un court-métrage d'animation réalisé dans After Effects, avec tous les environnements et personnages illustrés dans Adobe Illustrator.",
+            "es": "Un cortometraje animado creado en After Effects, con todos los entornos y personajes ilustrados en Adobe Illustrator.",
+            "zh": "一部在After Effects中製作的動畫短片，所有環境和角色均在Adobe Illustrator中繪製。"
+          },
+          "type": "video",
+          "src": "videos/Loup-Garou_la_nuit.mp4",
+          "technologies": ["After Effects", "Adobe Illustrator"]
         }
       ]
     },
@@ -99,7 +118,8 @@
           "images": [
             "imgs/affiche_lesgardiensbleus.jpg",
             "imgs/affiche_lesgardiensbleus2.jpg"
-          ]
+          ],
+          "technologies": ["Adobe Illustrator"]
         },
         {
           "title": {
@@ -119,7 +139,8 @@
             "imgs/Sunset_scene1.png",
             "imgs/Sunset_scene2.png",
             "imgs/Sunset_scene3.png"
-          ]
+          ],
+          "technologies": ["Adobe Illustrator"]
         },
         {
           "title": {
@@ -137,7 +158,8 @@
           "type": "image-gallery",
           "images": [
             "imgs/Forets-mysterieux.jpg"
-          ]
+          ],
+          "technologies": ["Adobe Photoshop"]
         },
         {
           "title": {
@@ -155,7 +177,8 @@
           "type": "image-gallery",
           "images": [
             "imgs/one.jpg"
-          ]
+          ],
+          "technologies": ["Adobe Premiere Pro"]
         }
       ]
     },
@@ -183,7 +206,8 @@
           },
           "type": "pdf",
           "src": "pdfs/analyse-test-user.pdf",
-          "image": "imgs/user-analyse.png"
+          "image": "imgs/user-analyse.png",
+          "technologies": ["Canva"]
         },
         {
           "title": {
@@ -200,7 +224,8 @@
           },
           "type": "pdf",
           "src": "pdfs/presentation_pdf.pdf",
-          "image": "imgs/projet-presentation.png"
+          "image": "imgs/projet-presentation.png",
+          "technologies": ["Canva"]
         },
         {
           "title": {
@@ -217,7 +242,8 @@
           },
           "type": "pdf",
           "src": "pdfs/sufmer.pdf",
-          "image": "imgs/sufmer.png"
+          "image": "imgs/sufmer.png",
+          "technologies": ["Canva"]
         },
         {
           "title": {
@@ -234,7 +260,8 @@
           },
           "type": "pdf",
           "src": "pdfs/web-redo-presentation.pdf",
-          "image": "imgs/web-redo.png"
+          "image": "imgs/web-redo.png",
+          "technologies": ["Canva"]
         },
         {
           "title": {
@@ -251,7 +278,8 @@
           },
           "type": "pdf",
           "src": "pdfs/Le-Petit-Messager.pdf",
-          "image": ""
+          "image": "imgs/Le-petit-messager.png",
+          "technologies": ["Canva"]
         }
       ]
     },

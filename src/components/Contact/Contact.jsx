@@ -14,27 +14,19 @@ export default function Contact() {
         </div>
         <div className="contact-grid">
           <div>
-            <div className="contact-info-card">
-              <div className="contact-icon">📍</div>
-              <div>
-                <div className="contact-info-label">{i18n.contact.location}</div>
-                <div className="contact-info-value">Québec, Canada</div>
+            {[
+              { icon: '📍', label: i18n.contact.location, value: 'Québec, Canada' },
+              { icon: '📧', label: i18n.contact.email, value: 'yunyeh.tseng@email.com' },
+              { icon: '📱', label: i18n.contact.phone, value: '+1 (XXX) XXX-XXXX' },
+            ].map(({ icon, label, value }) => (
+              <div key={label} className="contact-info-card">
+                <div className="contact-icon">{icon}</div>
+                <div>
+                  <div className="contact-info-label">{label}</div>
+                  <div className="contact-info-value">{value}</div>
+                </div>
               </div>
-            </div>
-            <div className="contact-info-card">
-              <div className="contact-icon">📧</div>
-              <div>
-                <div className="contact-info-label">{i18n.contact.email}</div>
-                <div className="contact-info-value">yunyeh.tseng@email.com</div>
-              </div>
-            </div>
-            <div className="contact-info-card">
-              <div className="contact-icon">📱</div>
-              <div>
-                <div className="contact-info-label">{i18n.contact.phone}</div>
-                <div className="contact-info-value">+1 (XXX) XXX-XXXX</div>
-              </div>
-            </div>
+            ))}
           </div>
           <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
             <div className="form-row">

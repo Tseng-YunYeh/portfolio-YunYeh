@@ -45,38 +45,16 @@ function AppContent() {
 
   // Filtered projects
   const getFilteredProjects = () => {
-    let items = []
-    themes.forEach((theme) => {
-      theme.projects.forEach((project) => {
-        if (activeFilter === 'all' || activeFilter === theme.id) {
-          items.push({ project, theme })
-        }
-      })
-    })
-    if (searchQuery.trim()) {
-      items = items.filter(({ project }) => {
-        const title = tObj(project.title).toLowerCase()
-        const desc = tObj(project.description).toLowerCase()
-        return title.includes(searchQuery.toLowerCase()) || desc.includes(searchQuery.toLowerCase())
-      })
-    }
-    return items
+    const q = searchQuery.trim().toLowerCase()
+    return themes
+      .filter((th) => activeFilter === 'all' || activeFilter === th.id)
+      .flatMap((th) => th.projects.map((p) => ({ project: p, theme: th })))
+      .filter(({ project }) => !q || `${tObj(project.title)} ${tObj(project.description)}`.toLowerCase().includes(q))
   }
 
-  const openModal = useCallback((project, theme) => {
-    setModalProject(project)
-    setModalTheme(theme)
-  }, [])
-
-  const closeModal = useCallback(() => {
-    setModalProject(null)
-    setModalTheme(null)
-  }, [])
-
-  const handleFooterSearch = () => {
-    setActiveFilter('all')
-    scrollTo('portfolio')
-  }
+  const openModal = useCallback((project, theme) => { setModalProject(project); setModalTheme(theme) }, [])
+  const closeModal = useCallback(() => { setModalProject(null); setModalTheme(null) }, [])
+  const handleFooterSearch = () => { setActiveFilter('all'); scrollTo('portfolio') }
 
   return (
     <div className="App">

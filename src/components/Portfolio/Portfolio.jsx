@@ -4,7 +4,7 @@ import categoryIcons from '../../data/categoryIcons'
 import './Portfolio.css'
 
 export default function Portfolio({ themes, activeFilter, setActiveFilter, filteredProjects, onOpenModal }) {
-  const { lang, i18n, tObj } = useLanguage()
+  const { i18n, tObj } = useLanguage()
 
   return (
     <section id="portfolio" className="portfolio-section">
