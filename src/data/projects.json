@@ -1,5 +1,10 @@
 {
-  "cv": "pdfs/Tseng_YunYeh_CV_En.pdf",
+  "cv": {
+    "en": "pdfs/Tseng_YunYeh_CV_En.pdf",
+    "fr": "pdfs/Tseng_YunYeh_CV_Fr.pdf",
+    "es": "pdfs/Tseng_YunYeh_CV_En.pdf",
+    "zh": "pdfs/Tseng_YunYeh_CV_zh.pdf"
+  },
   "themes": [
     {
       "id": "web",
@@ -178,7 +183,7 @@
           "images": [
             "imgs/one.jpg"
           ],
-          "technologies": ["Adobe Premiere Pro"]
+          "technologies": ["Adobe Photoshop"]
         }
       ]
     },
