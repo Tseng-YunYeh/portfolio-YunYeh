@@ -24,14 +24,14 @@
         "mySkills": "我的技能",
         "letsTalk": "讓我們談談",
         "experience": "工作經歷",
-        "exp1_date": "2023 - 至今",
-        "exp1_role": "資深開發者",
-        "exp1_company": "Tech Solutions Inc.",
-        "exp1_desc": "領導前端開發並指導初級開發者。",
-        "exp2_date": "2021 - 2023",
-        "exp2_role": "網頁設計師",
-        "exp2_company": "Creative Studio",
-        "exp2_desc": "為各種客戶專案設計並實施使用者介面。"
+        "exp1_date": "即將推出",
+        "exp1_role": "",
+        "exp1_company": "",
+        "exp1_desc": "",
+        "exp2_date": "即將推出",
+        "exp2_role": "",
+        "exp2_company": "",
+        "exp2_desc": ""
     },
     "portfolio": {
         "title": "我的作品",
@@ -56,7 +56,7 @@
         "errorMessage": "傳送失敗，請重試。"
     },
     "footer": {
-        "rights": "© 2025 MyPortfolio. 保留所有權利。",
+        "rights": "© 2026 MyPortfolio. 保留所有權利。",
         "description": "創造啟發和創新的數位體驗。讓我們一起打造非凡的作品。",
         "searchProjects": "搜尋專案",
         "searchText": "在我的作品集中查找特定專案。",

@@ -51,8 +51,8 @@ const CATEGORY_ICONS = { web: '🌐', video: '🎬', design: '🎨', documents: 
 const OVERLAY_ICONS = { video: '▶', web: '↗', pdf: '📥', 'image-gallery': '🖼' }
 const SKILLS = [
   'HTML', 'CSS', 'JavaScript', 'React', 'Figma',
-  'Video Editing', '3D Rendering', 'UI/UX Design',
-  'Responsive Design', 'Adobe Suite', 'Git',
+  'Video Editing', 'Maya', 'UI/UX Design',
+  'Unity', 'Adobe Suite', 'Git','Agile Methodologies','WordPress','Communication','Teamwork'
 ]
 const CONTACT_INFO = [
   { icon: '📍', key: 'location', value: 'Montréal, Canada' },
