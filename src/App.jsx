@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef, createContext, useContext } from 'react'
 import emailjs from '@emailjs/browser'
+import { FiDownload, FiSearch } from 'react-icons/fi'
+import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
 import en from './i18n/en.json'
 import fr from './i18n/fr.json'
 import es from './i18n/es.json'
@@ -183,7 +185,7 @@ function Hero({ onScrollTo, totalProjects, totalCategories }) {
               {i18n.home.viewWork} →
             </button>
             <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-              {i18n.home.downloadCV} ↓
+              <FiDownload /> {i18n.home.downloadCV}
             </a>
           </div>
           <div className="hero-stats">
@@ -484,9 +486,9 @@ function Footer({ searchQuery, setSearchQuery, onSearch }) {
           <div className="footer-brand">YunYeh.</div>
           <p className="footer-desc">{i18n.footer.description}</p>
           <div className="footer-social">
-            <a href="https://github.com/Tseng-YunYeh" target="_blank" rel="noopener noreferrer" className="social-link" title="GitHub">⌨</a>
-            <a href="#" className="social-link" title="LinkedIn">💼</a>
-            <a href="#" className="social-link" title="Twitter">🐦</a>
+            <a href="https://github.com/Tseng-YunYeh" target="_blank" rel="noopener noreferrer" className="social-link github" title="GitHub"><FaGithub /></a>
+            <a href="https://www.linkedin.com/in/yun-yeh-tseng-52193a34b/" target="_blank" rel="noopener noreferrer" className="social-link linkedin" title="LinkedIn"><FaLinkedinIn /></a>
+            <a href="#" className="social-link twitter" title="X (Twitter)"><FaXTwitter /></a>
           </div>
         </div>
         <div className="footer-column">
@@ -500,7 +502,7 @@ function Footer({ searchQuery, setSearchQuery, onSearch }) {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && searchQuery.trim()) onSearch() }}
             />
-            <button onClick={onSearch} aria-label="Search">🔍</button>
+            <button onClick={onSearch} aria-label="Search"><FiSearch /></button>
           </div>
         </div>
         <div className="footer-column">
