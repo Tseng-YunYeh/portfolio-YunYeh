@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback, useMemo, useRef, createContext, useContext } from 'react'
+import { NavLink as RouterNavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
-import { FiDownload, FiSearch } from 'react-icons/fi'
+import { FiExternalLink, FiFileText, FiImage, FiPlayCircle, FiSearch } from 'react-icons/fi'
 import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
+import { HiOutlineArrowDownTray } from 'react-icons/hi2'
 import en from './i18n/en.json'
 import fr from './i18n/fr.json'
 import es from './i18n/es.json'
@@ -47,10 +49,15 @@ function useLanguage() {
 
 /* ===== Constants ===== */
 const BASE = import.meta.env.BASE_URL
-const SECTIONS = ['home', 'about', 'portfolio', 'contact']
 const LANGUAGES = ['en', 'fr', 'es', 'zh']
 const CATEGORY_ICONS = { web: '🌐', video: '🎬', design: '🎨', documents: '📄', prototype: '📱' }
-const OVERLAY_ICONS = { video: '▶', web: '↗', pdf: '📥', 'image-gallery': '🖼' }
+const OVERLAY_ICONS = { video: FiPlayCircle, web: FiExternalLink, pdf: HiOutlineArrowDownTray, 'image-gallery': FiImage }
+const NAV_ITEMS = [
+  { id: 'home', path: '/' },
+  { id: 'about', path: '/about' },
+  { id: 'portfolio', path: '/portfolio' },
+  { id: 'contact', path: '/contact' },
+]
 const SKILLS = [
   'HTML', 'CSS', 'JavaScript', 'React', 'Figma',
   'Video Editing', 'Maya', 'UI/UX Design',
@@ -102,21 +109,27 @@ function CountUp({ end, suffix = '', duration = 2000 }) {
 }
 
 /* ===== Creative Nav Link ===== */
-function NavLink({ text, isActive, onClick }) {
+function NavItem({ text, path, onClick }) {
   return (
-    <button className={`nav-link ${isActive ? 'active' : ''}`} onClick={onClick}>
+    <RouterNavLink to={path} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={onClick}>
       <span className="nav-link-label">{text}</span>
       <span className="nav-link-line" />
-    </button>
+    </RouterNavLink>
   )
 }
 
 /* ===== Navbar ===== */
-function Navbar({ activeSection, scrolled, onScrollTo }) {
+function Navbar({ scrolled }) {
   const { lang, switchLanguage, i18n } = useLanguage()
+  const navigate = useNavigate()
+  const location = useLocation()
   const [mobileNav, setMobileNav] = useState(false)
 
-  const handleNav = (id) => { onScrollTo(id); setMobileNav(false) }
+  const handleNav = () => setMobileNav(false)
+
+  useEffect(() => {
+    setMobileNav(false)
+  }, [location.pathname])
 
   // Close mobile nav on outside click
   useEffect(() => {
@@ -136,10 +149,10 @@ function Navbar({ activeSection, scrolled, onScrollTo }) {
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="nav-logo" onClick={() => handleNav('home')}>YunYeh.</div>
+      <div className="nav-logo" onClick={() => navigate('/')}>YunYeh.</div>
       <div className={`nav-links ${mobileNav ? 'open' : ''}`}>
-        {SECTIONS.map((s) => (
-          <NavLink key={s} text={i18n.nav[s]} isActive={activeSection === s} onClick={() => handleNav(s)} />
+        {NAV_ITEMS.map((item) => (
+          <NavItem key={item.id} text={i18n.nav[item.id]} path={item.path} onClick={handleNav} />
         ))}
         <div className="lang-selector">
           {LANGUAGES.map((l) => (
@@ -158,7 +171,7 @@ function Navbar({ activeSection, scrolled, onScrollTo }) {
 }
 
 /* ===== Hero ===== */
-function Hero({ onScrollTo, totalProjects, totalCategories }) {
+function Hero({ onGoPortfolio, totalProjects, totalCategories }) {
   const { i18n, tObj } = useLanguage()
   const cvUrl = `${BASE}${tObj(projectsData.cv)}`
 
@@ -181,11 +194,11 @@ function Hero({ onScrollTo, totalProjects, totalCategories }) {
           <p className="hero-role">{i18n.home.role}</p>
           <p className="hero-desc">{i18n.about.description}</p>
           <div className="hero-actions">
-            <button className="btn btn-primary" onClick={() => onScrollTo('portfolio')}>
+            <button className="btn btn-primary" onClick={onGoPortfolio}>
               {i18n.home.viewWork} →
             </button>
             <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-              <FiDownload /> {i18n.home.downloadCV}
+              <HiOutlineArrowDownTray /> {i18n.home.downloadCV}
             </a>
           </div>
           <div className="hero-stats">
@@ -209,7 +222,7 @@ function Hero({ onScrollTo, totalProjects, totalCategories }) {
 }
 
 /* ===== About ===== */
-function About({ onScrollTo }) {
+function About({ onGoContact }) {
   const { i18n } = useLanguage()
   const a = i18n.about
 
@@ -247,7 +260,7 @@ function About({ onScrollTo }) {
                 </div>
               ))}
             </div>
-            <button className="btn btn-primary" onClick={() => onScrollTo('contact')}>
+            <button className="btn btn-primary" onClick={onGoContact}>
               {a.letsTalk} →
             </button>
           </div>
@@ -258,9 +271,11 @@ function About({ onScrollTo }) {
 }
 
 /* ===== ProjectCard ===== */
-function ProjectCard({ project, theme, onClick, index }) {
+function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
   const { tObj } = useLanguage()
+  const { project, theme, key } = item
   const title = tObj(project.title)
+  const OverlayIcon = OVERLAY_ICONS[project.type] || FiFileText
 
   const thumbnail = useMemo(() => {
     if (project.images?.length) return <img src={`${BASE}${project.images[0]}`} alt={title} loading="lazy" />
@@ -270,11 +285,16 @@ function ProjectCard({ project, theme, onClick, index }) {
   }, [project, theme.id, title])
 
   return (
-    <div className="project-card" onClick={() => onClick(project, theme)} style={{ animationDelay: `${index * 0.08}s` }}>
+    <div
+      className={`project-card ${highlighted ? 'search-hit' : ''}`}
+      ref={(node) => registerRef(key, node)}
+      onClick={() => onClick(project, theme)}
+      style={{ animationDelay: `${index * 0.08}s` }}
+    >
       <div className="project-thumbnail">
         {thumbnail}
         <div className="project-overlay">
-          <div className="project-overlay-icon">{OVERLAY_ICONS[project.type] || '👁'}</div>
+          <div className="project-overlay-icon"><OverlayIcon /></div>
         </div>
       </div>
       <div className="project-info">
@@ -292,7 +312,7 @@ function ProjectCard({ project, theme, onClick, index }) {
 }
 
 /* ===== Portfolio ===== */
-function Portfolio({ themes, activeFilter, setActiveFilter, filteredProjects, onOpenModal }) {
+function Portfolio({ themes, activeFilter, onFilterChange, filteredProjects, onOpenModal, registerProjectRef, highlightedProjectKey, hasSearchFilter }) {
   const { i18n, tObj } = useLanguage()
 
   return (
@@ -304,18 +324,28 @@ function Portfolio({ themes, activeFilter, setActiveFilter, filteredProjects, on
           <p className="section-subtitle">{i18n.portfolio.subtitle}</p>
         </div>
         <div className="filter-bar">
-          <button className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`} onClick={() => setActiveFilter('all')}>
+          <button className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`} onClick={() => onFilterChange('all')}>
             {i18n.portfolio.filterAll}
           </button>
           {themes.map((theme) => (
-            <button key={theme.id} className={`filter-btn ${activeFilter === theme.id ? 'active' : ''}`} onClick={() => setActiveFilter(theme.id)}>
+            <button key={theme.id} className={`filter-btn ${activeFilter === theme.id ? 'active' : ''}`} onClick={() => onFilterChange(theme.id)}>
               {CATEGORY_ICONS[theme.id]} {tObj(theme.title)}
             </button>
           ))}
         </div>
+        {hasSearchFilter && filteredProjects.length === 0 && (
+          <p className="portfolio-empty">{i18n.portfolio.noResults || 'No project matched your search.'}</p>
+        )}
         <div className="projects-grid" key={activeFilter}>
-          {filteredProjects.map(({ project, theme }, idx) => (
-            <ProjectCard key={`${theme.id}-${idx}`} project={project} theme={theme} onClick={onOpenModal} index={idx} />
+          {filteredProjects.map((item, idx) => (
+            <ProjectCard
+              key={item.key}
+              item={item}
+              onClick={onOpenModal}
+              index={idx}
+              registerRef={registerProjectRef}
+              highlighted={highlightedProjectKey === item.key}
+            />
           ))}
         </div>
       </div>
@@ -384,7 +414,7 @@ function ProjectModal({ project, theme, onClose }) {
             )}
             {project.type === 'pdf' && project.src && (
               <a href={`${BASE}${project.src}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                {i18n.portfolio.clickToDownload} 📥
+                <HiOutlineArrowDownTray /> {i18n.portfolio.clickToDownload}
               </a>
             )}
           </div>
@@ -476,7 +506,7 @@ function Contact() {
 }
 
 /* ===== Footer ===== */
-function Footer({ searchQuery, setSearchQuery, onSearch }) {
+function Footer({ searchInput, setSearchInput, onSearch }) {
   const { i18n } = useLanguage()
 
   return (
@@ -494,16 +524,15 @@ function Footer({ searchQuery, setSearchQuery, onSearch }) {
         <div className="footer-column">
           <h4>{i18n.footer.searchProjects}</h4>
           <p>{i18n.footer.searchText}</p>
-          <div className="footer-search">
+          <form className="footer-search" onSubmit={(e) => { e.preventDefault(); onSearch() }}>
             <input
               type="text"
               placeholder={i18n.footer.searchPlaceholder}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter' && searchQuery.trim()) onSearch() }}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-            <button onClick={onSearch} aria-label="Search"><FiSearch /></button>
-          </div>
+            <button type="submit" aria-label="Search"><FiSearch /></button>
+          </form>
         </div>
         <div className="footer-column">
           <h4>{i18n.footer.connect}</h4>
@@ -521,52 +550,107 @@ function Footer({ searchQuery, setSearchQuery, onSearch }) {
 /* ===== App Content ===== */
 function AppContent() {
   const { tObj } = useLanguage()
-  const [activeSection, setActiveSection] = useState('home')
+  const navigate = useNavigate()
+  const location = useLocation()
   const [scrolled, setScrolled] = useState(false)
   const [activeFilter, setActiveFilter] = useState('all')
   const [modalProject, setModalProject] = useState(null)
   const [modalTheme, setModalTheme] = useState(null)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchInput, setSearchInput] = useState('')
+  const [searchFilter, setSearchFilter] = useState('')
+  const [highlightedProjectKey, setHighlightedProjectKey] = useState(null)
+  const projectRefs = useRef({})
 
   const { themes } = projectsData
   const totalProjects = useMemo(() => themes.reduce((acc, th) => acc + th.projects.length, 0), [themes])
+  const allProjects = useMemo(
+    () => themes.flatMap((theme) => theme.projects.map((project, projectIndex) => ({ key: `${theme.id}-${projectIndex}`, project, theme }))),
+    [themes]
+  )
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-      for (const id of [...SECTIONS].reverse()) {
-        const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top < 200) { setActiveSection(id); break }
-      }
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollTo = useCallback((id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  const registerProjectRef = useCallback((key, node) => {
+    if (node) projectRefs.current[key] = node
+    else delete projectRefs.current[key]
+  }, [])
+
+  const onFilterChange = useCallback((nextFilter) => {
+    setActiveFilter(nextFilter)
+    if (nextFilter === 'all') {
+      setSearchFilter('')
+      setHighlightedProjectKey(null)
+    }
   }, [])
 
   const filteredProjects = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase()
-    return themes
-      .filter((th) => activeFilter === 'all' || activeFilter === th.id)
-      .flatMap((th) => th.projects.map((p) => ({ project: p, theme: th })))
+    const q = searchFilter.trim().toLowerCase()
+    return allProjects
+      .filter(({ theme }) => activeFilter === 'all' || activeFilter === theme.id)
       .filter(({ project }) => !q || `${tObj(project.title)} ${tObj(project.description)}`.toLowerCase().includes(q))
-  }, [themes, activeFilter, searchQuery, tObj])
+  }, [allProjects, activeFilter, searchFilter, tObj])
 
   const openModal = useCallback((project, theme) => { setModalProject(project); setModalTheme(theme) }, [])
   const closeModal = useCallback(() => { setModalProject(null); setModalTheme(null) }, [])
-  const handleFooterSearch = useCallback(() => { setActiveFilter('all'); scrollTo('portfolio') }, [scrollTo])
+
+  const handleFooterSearch = useCallback(() => {
+    const q = searchInput.trim().toLowerCase()
+    setActiveFilter('all')
+    navigate('/portfolio')
+
+    if (!q) {
+      setSearchFilter('')
+      setHighlightedProjectKey(null)
+      return
+    }
+
+    setSearchFilter(q)
+    const firstMatch = allProjects.find(({ project }) => `${tObj(project.title)} ${tObj(project.description)}`.toLowerCase().includes(q))
+    setHighlightedProjectKey(firstMatch?.key || null)
+    setSearchInput('')
+  }, [allProjects, navigate, searchInput, tObj])
+
+  useEffect(() => {
+    if (location.pathname !== '/portfolio' || !highlightedProjectKey) return
+
+    const target = projectRefs.current[highlightedProjectKey]
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+
+    const timer = setTimeout(() => setHighlightedProjectKey(null), 2200)
+    return () => clearTimeout(timer)
+  }, [filteredProjects.length, highlightedProjectKey, location.pathname])
 
   return (
     <div className="App">
-      <Navbar activeSection={activeSection} scrolled={scrolled} onScrollTo={scrollTo} />
-      <Hero onScrollTo={scrollTo} totalProjects={totalProjects} totalCategories={themes.length} />
-      <About onScrollTo={scrollTo} />
-      <Portfolio themes={themes} activeFilter={activeFilter} setActiveFilter={setActiveFilter} filteredProjects={filteredProjects} onOpenModal={openModal} />
-      <Contact />
-      <Footer searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSearch={handleFooterSearch} />
+      <Navbar scrolled={scrolled} />
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<Hero onGoPortfolio={() => navigate('/portfolio')} totalProjects={totalProjects} totalCategories={themes.length} />} />
+          <Route path="/about" element={<About onGoContact={() => navigate('/contact')} />} />
+          <Route
+            path="/portfolio"
+            element={
+              <Portfolio
+                themes={themes}
+                activeFilter={activeFilter}
+                onFilterChange={onFilterChange}
+                filteredProjects={filteredProjects}
+                onOpenModal={openModal}
+                registerProjectRef={registerProjectRef}
+                highlightedProjectKey={highlightedProjectKey}
+                hasSearchFilter={Boolean(searchFilter)}
+              />
+            }
+          />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Hero onGoPortfolio={() => navigate('/portfolio')} totalProjects={totalProjects} totalCategories={themes.length} />} />
+        </Routes>
+      </main>
+      <Footer searchInput={searchInput} setSearchInput={setSearchInput} onSearch={handleFooterSearch} />
       {modalProject && modalTheme && <ProjectModal project={modalProject} theme={modalTheme} onClose={closeModal} />}
     </div>
   )
@@ -576,7 +660,9 @@ function AppContent() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AppContent />
+      <Routes>
+        <Route path="/*" element={<AppContent />} />
+      </Routes>
     </LanguageProvider>
   )
 }

@@ -37,6 +37,7 @@
         "title": "Mon travail",
         "subtitle": "Une sélection de mes projets récents.",
         "filterAll": "Tout",
+        "noResults": "Aucun projet ne correspond à votre recherche.",
         "clickToDownload": "Cliquer pour Télécharger",
         "viewLive": "Voir en direct"
     },

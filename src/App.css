@@ -610,6 +610,17 @@
   gap: 24px;
 }
 
+.portfolio-empty {
+  margin: 0 auto 26px;
+  padding: 10px 16px;
+  width: fit-content;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+}
+
 /* ===== Project Card ===== */
 .project-card {
   background: var(--bg-card);
@@ -630,6 +641,11 @@
   transform: translateY(-8px);
   box-shadow: var(--shadow-glow);
   border-color: var(--border-glow);
+}
+
+.project-card.search-hit {
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.5), 0 0 24px rgba(0, 212, 170, 0.35);
 }
 
 .project-thumbnail {
