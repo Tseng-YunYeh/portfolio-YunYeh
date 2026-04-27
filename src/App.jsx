@@ -9,6 +9,7 @@ import fr from './i18n/fr.json'
 import es from './i18n/es.json'
 import zh from './i18n/zh.json'
 import projectsData from './data/projects.json'
+import { useSeo } from './hooks/useSeo.js'
 import './App.css'
 
 /* ===== Language Context ===== */
@@ -122,14 +123,9 @@ function NavItem({ text, path, onClick }) {
 function Navbar({ scrolled }) {
   const { lang, switchLanguage, i18n } = useLanguage()
   const navigate = useNavigate()
-  const location = useLocation()
   const [mobileNav, setMobileNav] = useState(false)
 
   const handleNav = () => setMobileNav(false)
-
-  useEffect(() => {
-    setMobileNav(false)
-  }, [location.pathname])
 
   // Close mobile nav on outside click
   useEffect(() => {
@@ -354,7 +350,7 @@ function Portfolio({ themes, activeFilter, onFilterChange, filteredProjects, onO
 }
 
 /* ===== ProjectModal ===== */
-function ProjectModal({ project, theme, onClose }) {
+function ProjectModal({ project, onClose }) {
   const { i18n, tObj } = useLanguage()
   const [galleryIdx, setGalleryIdx] = useState(0)
   const title = tObj(project.title)
@@ -549,7 +545,7 @@ function Footer({ searchInput, setSearchInput, onSearch }) {
 
 /* ===== App Content ===== */
 function AppContent() {
-  const { tObj } = useLanguage()
+  const { lang, i18n, tObj } = useLanguage()
   const navigate = useNavigate()
   const location = useLocation()
   const [scrolled, setScrolled] = useState(false)
@@ -597,6 +593,38 @@ function AppContent() {
   const openModal = useCallback((project, theme) => { setModalProject(project); setModalTheme(theme) }, [])
   const closeModal = useCallback(() => { setModalProject(null); setModalTheme(null) }, [])
 
+  const seoConfig = useMemo(() => {
+    const pageConfig = {
+      '/': {
+        title: i18n.home.role,
+        description: i18n.about.description,
+      },
+      '/about': {
+        title: i18n.about.title,
+        description: i18n.about.subtitle,
+      },
+      '/portfolio': {
+        title: i18n.portfolio.title,
+        description: i18n.portfolio.subtitle,
+      },
+      '/contact': {
+        title: i18n.contact.title,
+        description: i18n.contact.subtitle,
+      },
+    }
+
+    return pageConfig[location.pathname] || {
+      title: i18n.home.role,
+      description: i18n.about.description,
+    }
+  }, [i18n, location.pathname])
+
+  useSeo({
+    title: seoConfig.title,
+    description: seoConfig.description,
+    lang,
+  })
+
   const handleFooterSearch = useCallback(() => {
     const q = searchInput.trim().toLowerCase()
     setActiveFilter('all')
@@ -626,7 +654,7 @@ function AppContent() {
 
   return (
     <div className="App">
-      <Navbar scrolled={scrolled} />
+      <Navbar key={location.pathname} scrolled={scrolled} />
       <main className="app-main">
         <Routes>
           <Route path="/" element={<Hero onGoPortfolio={() => navigate('/portfolio')} totalProjects={totalProjects} totalCategories={themes.length} />} />
@@ -651,7 +679,7 @@ function AppContent() {
         </Routes>
       </main>
       <Footer searchInput={searchInput} setSearchInput={setSearchInput} onSearch={handleFooterSearch} />
-      {modalProject && modalTheme && <ProjectModal project={modalProject} theme={modalTheme} onClose={closeModal} />}
+      {modalProject && modalTheme && <ProjectModal project={modalProject} onClose={closeModal} />}
     </div>
   )
 }
