@@ -1,4 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef, createContext, useContext } from 'react'
+import { bd } from './firebase/init'
+import { collection, getDocs, onSnapshot, doc } from 'firebase/firestore'
+import { useAuth } from './context/AuthContext'
 import { NavLink as RouterNavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import { FiExternalLink, FiFileText, FiImage, FiPlayCircle, FiSearch } from 'react-icons/fi'
@@ -11,6 +14,10 @@ import zh from './i18n/zh.json'
 import projectsData from './data/projects.json'
 import { useSeo } from './hooks/useSeo.js'
 import './App.css'
+import ProtectedRoute from './components/ProtectedRoute'
+import AdminPage from './pages/Admin'
+import { useToast, ToastProvider } from './context/ToastContext'
+import { basculerLike } from './firebase/project-modele' 
 
 /* ===== Language Context ===== */
 const TRANSLATIONS = { en, fr, es, zh }
@@ -122,6 +129,8 @@ function NavItem({ text, path, onClick }) {
 /* ===== Navbar ===== */
 function Navbar({ scrolled }) {
   const { lang, switchLanguage, i18n } = useLanguage()
+  const { utilisateur, connexion, deconnexion } = useAuth()
+  const { showToast } = useToast()
   const navigate = useNavigate()
   const [mobileNav, setMobileNav] = useState(false)
 
@@ -146,6 +155,7 @@ function Navbar({ scrolled }) {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-logo" onClick={() => navigate('/')}>YunYeh.</div>
+
       <div className={`nav-links ${mobileNav ? 'open' : ''}`}>
         {NAV_ITEMS.map((item) => (
           <NavItem key={item.id} text={i18n.nav[item.id]} path={item.path} onClick={handleNav} />
@@ -156,6 +166,21 @@ function Navbar({ scrolled }) {
               {l}
             </button>
           ))}
+        </div>
+        {utilisateur && utilisateur.estAdmin === true && (
+          <RouterNavLink to="/admin" className="nav-admin" onClick={handleNav}>{i18n.nav?.admin || 'Admin'}</RouterNavLink>
+        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 8 }}>
+          {!utilisateur ? (
+            <div className="nav-user nav-user-login">
+              <button className="btn-logout" onClick={connexion}>{i18n.nav?.login || 'Connect'}</button>
+            </div>
+          ) : (
+            <div className="nav-user">
+              <img src={utilisateur.photoURL} alt={utilisateur.displayName} className="user-avatar" />
+              <button className="btn-logout" onClick={deconnexion}>{i18n.nav?.logout || 'Logout'}</button>
+            </div>
+          )}
         </div>
       </div>
       {mobileNav && <div className="nav-overlay" onClick={() => setMobileNav(false)} />}
@@ -272,6 +297,43 @@ function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
   const { project, theme, key } = item
   const title = tObj(project.title)
   const OverlayIcon = OVERLAY_ICONS[project.type] || FiFileText
+  const { utilisateur, connexion } = useAuth()
+  const { showToast } = useToast()
+  const [likeCount, setLikeCount] = useState(project.likes ? project.likes.length : 0)
+  const [userLiked, setUserLiked] = useState(utilisateur && project.likes && project.likes.find((l) => l.uid === utilisateur.uid))
+  const [isLiking, setIsLiking] = useState(false)
+
+  // Real-time listener for likes
+  useEffect(() => {
+    if (!project.id) return
+    const ref = doc(bd, 'projects', project.id)
+    const unsub = onSnapshot(ref, (snap) => {
+      const data = snap.data()
+      if (data && data.likes) {
+        setLikeCount(data.likes.length)
+        setUserLiked(utilisateur && data.likes.find((l) => l.uid === utilisateur.uid))
+      } else {
+        setLikeCount(0)
+        setUserLiked(null)
+      }
+    })
+    return () => unsub()
+  }, [project.id, utilisateur])
+
+  const handleLike = async (e) => {
+    e.stopPropagation()
+    if (!utilisateur) { showToast('Connectez-vous pour aimer', { type: 'info' }); return }
+    if (!project.id) { showToast('Ce projet n\'est pas encore dans la base. Importez les données.', { type: 'info' }); return }
+    setIsLiking(true)
+    try {
+      await basculerLike(project.id, utilisateur.uid, utilisateur.displayName)
+    } catch (err) {
+      console.error(err)
+      showToast('Erreur lors du like', { type: 'error' })
+    } finally {
+      setIsLiking(false)
+    }
+  }
 
   const thumbnail = useMemo(() => {
     if (project.images?.length) return <img src={`${BASE}${project.images[0]}`} alt={title} loading="lazy" />
@@ -289,6 +351,9 @@ function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
     >
       <div className="project-thumbnail">
         {thumbnail}
+        <button className={`like-btn ${userLiked ? 'liked' : ''} ${isLiking ? 'liking' : ''}`} onClick={handleLike} title="Like" style={{ position: 'absolute', right: 8, bottom: 8, zIndex: 999, background: 'rgba(0,0,0,0.6)', color: '#fff', border: 'none', padding: '6px 8px', borderRadius: 6 }}>
+          ❤️ {likeCount}
+        </button>
         <div className="project-overlay">
           <div className="project-overlay-icon"><OverlayIcon /></div>
         </div>
@@ -558,11 +623,36 @@ function AppContent() {
   const projectRefs = useRef({})
 
   const { themes } = projectsData
-  const totalProjects = useMemo(() => themes.reduce((acc, th) => acc + th.projects.length, 0), [themes])
-  const allProjects = useMemo(
-    () => themes.flatMap((theme) => theme.projects.map((project, projectIndex) => ({ key: `${theme.id}-${projectIndex}`, project, theme }))),
-    [themes]
-  )
+  const [firestoreProjects, setFirestoreProjects] = useState([])
+
+  useEffect(() => {
+    // try to load projects from Firestore; if none, keep using local JSON
+    const load = async () => {
+      try {
+        const col = collection(bd, 'projects')
+        const snap = await getDocs(col)
+        if (!snap.empty) {
+          const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }))
+          setFirestoreProjects(docs)
+        }
+      } catch (err) {
+        console.error('Failed to load firestore projects', err)
+      }
+    }
+    load()
+  }, [])
+
+  const totalProjects = useMemo(() => {
+    if (firestoreProjects.length > 0) return firestoreProjects.length
+    return themes.reduce((acc, th) => acc + th.projects.length, 0)
+  }, [themes, firestoreProjects])
+
+  const allProjects = useMemo(() => {
+    if (firestoreProjects.length > 0) {
+      return firestoreProjects.map((project) => ({ key: project.id, project, theme: { id: project.theme || 'imported', title: { en: project.theme || 'Imported' } } }))
+    }
+    return themes.flatMap((theme) => theme.projects.map((project, projectIndex) => ({ key: `${theme.id}-${projectIndex}`, project, theme })) )
+  }, [themes, firestoreProjects])
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -687,10 +777,13 @@ function AppContent() {
 /* ===== App ===== */
 export default function App() {
   return (
-    <LanguageProvider>
-      <Routes>
-        <Route path="/*" element={<AppContent />} />
-      </Routes>
-    </LanguageProvider>
+    <ToastProvider>
+      <LanguageProvider>
+        <Routes>
+          <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+          <Route path="/*" element={<AppContent />} />
+        </Routes>
+      </LanguageProvider>
+    </ToastProvider>
   )
 }

@@ -3,7 +3,10 @@
         "home": "Home",
         "about": "About",
         "portfolio": "Portfolio",
-        "contact": "Contact"
+        "contact": "Contact",
+        "login": "Sign in",
+        "logout": "Sign out",
+        "admin": "Admin"
     },
     "home": {
         "greeting": "Hello, I'm",

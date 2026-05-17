@@ -3,7 +3,10 @@
         "home": "Inicio",
         "about": "Sobre mí",
         "portfolio": "Portafolio",
-        "contact": "Contacto"
+        "contact": "Contacto",
+        "login": "Iniciar sesión",
+        "logout": "Cerrar sesión",
+        "admin": "Admin"
     },
     "home": {
         "greeting": "Hola, soy",

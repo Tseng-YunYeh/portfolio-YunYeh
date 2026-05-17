@@ -11,6 +11,17 @@ node_modules
 dist
 dist-ssr
 *.local
+/scripts
+.env
+.env.*
+!.env.example
+
+# Firebase CLI
+.firebase/
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
 
 # Editor directories and files
 .vscode/*
