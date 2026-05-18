@@ -15,9 +15,15 @@ import projectsData from './data/projects.json'
 import { useSeo } from './hooks/useSeo.js'
 import './App.css'
 import ProtectedRoute from './components/ProtectedRoute'
-import AdminPage from './pages/Admin'
+import AdminPage from './admin-page/Admin.jsx'
 import { useToast, ToastProvider } from './context/ToastContext'
 import { basculerLike } from './firebase/project-modele' 
+
+/************************************************/
+/** Seulement pour remplir les données de test **/
+/************************************************/
+// import remplirCollectionProjects from './scripts/donnees-test'
+// remplirCollectionProjects()
 
 /* ===== Language Context ===== */
 const TRANSLATIONS = { en, fr, es, zh }
@@ -57,6 +63,17 @@ function useLanguage() {
 
 /* ===== Constants ===== */
 const BASE = import.meta.env.BASE_URL
+// Resolve a stored path or a full URL: if it's already an absolute URL, return as-is,
+// otherwise prefix with the app `BASE` (used for local assets from `projects.json`).
+function resolveUrl(pathOrUrl) {
+  if (!pathOrUrl) return null
+  try {
+    if (typeof pathOrUrl === 'string' && pathOrUrl.startsWith('http')) return pathOrUrl
+  } catch (e) {
+    return null
+  }
+  return `${BASE}${pathOrUrl}`
+}
 const LANGUAGES = ['en', 'fr', 'es', 'zh']
 const CATEGORY_ICONS = { web: '🌐', video: '🎬', design: '🎨', documents: '📄', prototype: '📱' }
 const OVERLAY_ICONS = { video: FiPlayCircle, web: FiExternalLink, pdf: HiOutlineArrowDownTray, 'image-gallery': FiImage }
@@ -309,24 +326,26 @@ function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
     const ref = doc(bd, 'projects', project.id)
     const unsub = onSnapshot(ref, (snap) => {
       const data = snap.data()
-      if (data && data.likes) {
-        setLikeCount(data.likes.length)
-        setUserLiked(utilisateur && data.likes.find((l) => l.uid === utilisateur.uid))
-      } else {
-        setLikeCount(0)
-        setUserLiked(null)
-      }
+        if (data && data.likes) {
+          setLikeCount(data.likes.length)
+          setUserLiked(utilisateur && data.likes.find((l) => l.uid === utilisateur.uid))
+        } else {
+          setLikeCount(0)
+          setUserLiked(null)
+        }
     })
     return () => unsub()
   }, [project.id, utilisateur])
 
   const handleLike = async (e) => {
     e.stopPropagation()
-    if (!utilisateur) { showToast('Connectez-vous pour aimer', { type: 'info' }); return }
-    if (!project.id) { showToast('Ce projet n\'est pas encore dans la base. Importez les données.', { type: 'info' }); return }
+    if (!project.id) { showToast("Ce projet n'est pas encore dans la base. Importez les données.", { type: 'info' }); return }
     setIsLiking(true)
     try {
-      await basculerLike(project.id, utilisateur.uid, utilisateur.displayName)
+      if (!utilisateur) { showToast('Connectez-vous pour aimer', { type: 'info' }); setIsLiking(false); return }
+      const uid = utilisateur.uid
+      const displayName = utilisateur.displayName || 'Utilisateur'
+      await basculerLike(project.id, uid, displayName)
     } catch (err) {
       console.error(err)
       showToast('Erreur lors du like', { type: 'error' })
@@ -336,9 +355,9 @@ function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
   }
 
   const thumbnail = useMemo(() => {
-    if (project.images?.length) return <img src={`${BASE}${project.images[0]}`} alt={title} loading="lazy" />
-    if (project.image) return <img src={`${BASE}${project.image}`} alt={title} loading="lazy" />
-    if (project.type === 'video' && project.src) return <video src={`${BASE}${project.src}`} muted preload="metadata" />
+    if (project.images?.length) return <img src={resolveUrl(project.images[0])} alt={title} loading="lazy" />
+    if (project.image) return <img src={resolveUrl(project.image)} alt={title} loading="lazy" />
+    if (project.type === 'video' && project.src) return <video src={resolveUrl(project.src)} muted preload="metadata" />
     return <div className="project-placeholder">{CATEGORY_ICONS[theme.id] || '📁'}</div>
   }, [project, theme.id, title])
 
@@ -435,16 +454,16 @@ function ProjectModal({ project, onClose }) {
 
   const media = useMemo(() => {
     if (project.type === 'video' && project.src)
-      return <video src={`${BASE}${project.src}`} controls autoPlay />
+      return <video src={resolveUrl(project.src)} controls preload="metadata" />
     if (project.type === 'web' && project.link) {
       if (project.link.startsWith('http'))
-        return project.images?.[0] ? <img src={`${BASE}${project.images[0]}`} alt={title} /> : <iframe src={project.link} title={title} />
-      return <iframe src={`${BASE}${project.link}`} title={title} />
+        return project.images?.[0] ? <img src={resolveUrl(project.images[0])} alt={title} /> : <iframe src={project.link} title={title} />
+      return <iframe src={resolveUrl(project.link)} title={title} />
     }
     if (project.type === 'pdf')
-      return project.image ? <img src={`${BASE}${project.image}`} alt={title} /> : <iframe src={`${BASE}${project.src}`} title={title} />
+      return project.image ? <img src={resolveUrl(project.image)} alt={title} /> : <iframe src={resolveUrl(project.src)} title={title} />
     if (project.type === 'image-gallery' && project.images)
-      return <img src={`${BASE}${project.images[galleryIdx]}`} alt={`${title} ${galleryIdx + 1}`} />
+      return <img src={resolveUrl(project.images[galleryIdx])} alt={`${title} ${galleryIdx + 1}`} />
     return null
   }, [project, title, galleryIdx])
 
@@ -469,12 +488,12 @@ function ProjectModal({ project, onClose }) {
           <p className="modal-desc">{tObj(project.description)}</p>
           <div className="modal-actions">
             {project.type === 'web' && project.link && (
-              <a href={project.link.startsWith('http') ? project.link : `${BASE}${project.link}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              <a href={project.link.startsWith('http') ? project.link : resolveUrl(project.link)} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 {i18n.portfolio.viewLive} ↗
               </a>
             )}
             {project.type === 'pdf' && project.src && (
-              <a href={`${BASE}${project.src}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              <a href={resolveUrl(project.src)} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 <HiOutlineArrowDownTray /> {i18n.portfolio.clickToDownload}
               </a>
             )}
@@ -649,7 +668,32 @@ function AppContent() {
 
   const allProjects = useMemo(() => {
     if (firestoreProjects.length > 0) {
-      return firestoreProjects.map((project) => ({ key: project.id, project, theme: { id: project.theme || 'imported', title: { en: project.theme || 'Imported' } } }))
+      // When using Firestore projects, preserve missing media fields from local JSON as a fallback.
+      const localProjects = projectsData.themes.flatMap((theme) =>
+        theme.projects.map((project, projectIndex) => ({
+          key: `${theme.id}-${projectIndex}`,
+          project,
+          theme,
+        }))
+      )
+
+      return firestoreProjects.map((project) => {
+        const localMatch = project.title?.en
+          ? localProjects.find(({ project: localProject }) => localProject.title?.en === project.title.en)
+          : null
+        const mergedProject = localMatch ? { ...localMatch.project, ...project } : { ...project }
+        const mergedTheme = localMatch
+          ? project.theme
+            ? { id: project.theme, title: { en: project.theme } }
+            : localMatch.theme
+          : { id: project.theme || 'imported', title: { en: project.theme || 'Imported' } }
+
+        return {
+          key: mergedProject.id || mergedProject._id || mergedProject.title?.en,
+          project: mergedProject,
+          theme: mergedTheme,
+        }
+      })
     }
     return themes.flatMap((theme) => theme.projects.map((project, projectIndex) => ({ key: `${theme.id}-${projectIndex}`, project, theme })) )
   }, [themes, firestoreProjects])

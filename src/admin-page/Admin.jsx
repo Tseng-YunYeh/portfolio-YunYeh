@@ -5,7 +5,7 @@ import { useToast } from '../context/ToastContext'
 import { bd, storage } from '../firebase/init'
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL, deleteObject, listAll } from 'firebase/storage'
-import '../styles/admin.css'
+import './Admin.css'
 
 export default function Admin() {
   const { utilisateur, connexion, deconnexion } = useAuth()

@@ -1,5 +1,5 @@
 import { bd } from './init'
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore'
 
 export async function basculerLike(projectId, uid, displayName) {
   if (!projectId || !uid) throw new Error('projectId and uid required')
