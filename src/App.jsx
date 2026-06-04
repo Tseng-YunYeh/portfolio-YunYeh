@@ -4,7 +4,7 @@ import { collection, getDocs, onSnapshot, doc } from 'firebase/firestore'
 import { useAuth } from './context/AuthContext'
 import { NavLink as RouterNavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
-import { FiExternalLink, FiFileText, FiImage, FiPlayCircle, FiSearch } from 'react-icons/fi'
+import { FiArrowRight, FiCheckCircle, FiExternalLink, FiFileText, FiImage, FiLayers, FiMonitor, FiPackage, FiPenTool, FiPlayCircle, FiSearch, FiStar } from 'react-icons/fi'
 import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
 import { HiOutlineArrowDownTray } from 'react-icons/hi2'
 import en from './i18n/en.json'
@@ -72,6 +72,10 @@ function resolveUrl(pathOrUrl) {
   } catch (e) {
     return null
   }
+  // If the path is already absolute (starts with '/'), return as-is so it points
+  // to the `public/` folder (e.g. '/webs/custome-web01/'). Otherwise prefix
+  // with the app `BASE` for local asset paths.
+  if (typeof pathOrUrl === 'string' && pathOrUrl.startsWith('/')) return pathOrUrl
   return `${BASE}${pathOrUrl}`
 }
 const LANGUAGES = ['en', 'fr', 'es', 'zh']
@@ -81,6 +85,7 @@ const NAV_ITEMS = [
   { id: 'home', path: '/' },
   { id: 'about', path: '/about' },
   { id: 'portfolio', path: '/portfolio' },
+  { id: 'service', path: '/service' },
   { id: 'contact', path: '/contact' },
 ]
 const SKILLS = [
@@ -308,8 +313,139 @@ function About({ onGoContact }) {
   )
 }
 
+/* ===== Service ===== */
+function Service() {
+  const { i18n } = useLanguage()
+  const navigate = useNavigate()
+  const s = i18n.service
+  const serviceGroups = [
+    { icon: FiPenTool, ...s.graphicDesign },
+    { icon: FiMonitor, ...s.webDevelopment },
+  ]
+  const clientHighlights = [
+    { icon: FiStar, ...s.clientWork.items[0] },
+    { icon: FiLayers, ...s.clientWork.items[1] },
+    { icon: FiPackage, ...s.clientWork.items[2] },
+  ]
+  const showcaseRef = useRef(null)
+
+  return (
+    <section id="service" className="service-section">
+      <div className="service-hero">
+        <div className="service-hero-copy">
+          <span className="section-badge">✦ {s.badge}</span>
+          <h1 className="service-title">{s.heroTitle}</h1>
+          <p className="service-lead">{s.heroLead}</p>
+          <div className="service-hero-actions">
+            <button className="btn btn-primary" onClick={() => navigate('/contact')}>
+              {s.requestQuote} <FiArrowRight />
+            </button>
+            <button className="btn btn-outline" onClick={() => navigate('/portfolio')}>
+              {s.viewSchoolWork}
+            </button>
+          </div>
+          <div className="service-hero-points">
+            {s.points.map((point) => (
+              <span key={point}><FiCheckCircle /> {point}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="service-hero-panel">
+          <div className="service-panel-card">
+            <div className="service-panel-label">{s.startingPricesLabel}</div>
+            <div className="service-panel-value">{s.startingPricesValue}</div>
+            <p>{s.startingPricesText}</p>
+          </div>
+          <div className="service-panel-card service-panel-card-accent">
+            <div className="service-panel-label">{s.webBuildsLabel}</div>
+            <div className="service-panel-value">{s.webBuildsValue}</div>
+            <p>{s.webBuildsText}</p>
+          </div>
+          <div className="service-panel-card">
+            <div className="service-panel-label">{s.customWorkLabel}</div>
+            <div className="service-panel-value">{s.customWorkValue}</div>
+            <p>{s.customWorkText}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="service-catalog section">
+        <div className="section-header">
+          <span className="section-badge">✦ {s.whatIDoBadge}</span>
+          <h2 className="section-title">{s.servicesTitle}</h2>
+          <p className="section-subtitle">{s.servicesSubtitle}</p>
+        </div>
+
+        <div className="service-grid">
+          {serviceGroups.map(({ icon: Icon, title, subtitle, items }) => (
+            <article key={title} className="service-card">
+              <div className="service-card-top">
+                <div className="service-card-icon"><Icon /></div>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{subtitle}</p>
+                </div>
+              </div>
+              <div className="service-list">
+                {items.map((item) => (
+                  <div key={item.name} className="service-list-item">
+                    <div className="service-list-heading">
+                      <span className="service-item-name">{item.name}</span>
+                      <span className="service-item-price">{item.price}</span>
+                    </div>
+                    <p>{item.note}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="service-showcase section">
+        <div className="section-header">
+          <span className="section-badge">✦ {s.clientWork.badge}</span>
+          <h2 className="section-title">{s.clientWork.title}</h2>
+          <p className="section-subtitle">{s.clientWork.subtitle}</p>
+        </div>
+
+        <div className="service-showcase-grid" ref={showcaseRef}>
+          {clientHighlights.map(({ icon: Icon, title, description, label, url, image }) => (
+            <article key={title} className="service-showcase-card">
+              <div className="service-showcase-thumb-wrap">
+                {image && <img className="service-showcase-thumb" src={resolveUrl(image)} alt={title} />}
+              </div>
+              <div className="service-showcase-icon"><Icon /></div>
+              <div className="service-showcase-label">{label}</div>
+              <h3>{title}</h3>
+              <p>{description}</p>
+              <div className="service-showcase-actions">
+                {url ? (
+                  <a href={resolveUrl(url)} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+                    {s.viewLive || 'View live'} <FiExternalLink />
+                  </a>
+                ) : (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className="btn btn-primary" onClick={() => navigate('/contact')}>
+                      {s.requestQuote}
+                    </button>
+                    <button className="btn btn-outline" onClick={() => navigate('/portfolio')}>
+                      {s.viewSchoolWork}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ===== ProjectCard ===== */
-function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
+function ProjectCard({ item, onCardClick, index, registerRef, highlighted }) {
   const { tObj } = useLanguage()
   const { project, theme, key } = item
   const title = tObj(project.title)
@@ -365,7 +501,7 @@ function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
     <div
       className={`project-card ${highlighted ? 'search-hit' : ''}`}
       ref={(node) => registerRef(key, node)}
-      onClick={() => onClick(project, theme)}
+      onClick={() => onCardClick && onCardClick(project, theme)}
       style={{ animationDelay: `${index * 0.08}s` }}
     >
       <div className="project-thumbnail">
@@ -394,6 +530,7 @@ function ProjectCard({ item, onClick, index, registerRef, highlighted }) {
 /* ===== Portfolio ===== */
 function Portfolio({ themes, activeFilter, onFilterChange, filteredProjects, onOpenModal, registerProjectRef, highlightedProjectKey, hasSearchFilter }) {
   const { i18n, tObj } = useLanguage()
+  const portfolioRef = useRef(null)
 
   return (
     <section id="portfolio" className="portfolio-section">
@@ -416,12 +553,12 @@ function Portfolio({ themes, activeFilter, onFilterChange, filteredProjects, onO
         {hasSearchFilter && filteredProjects.length === 0 && (
           <p className="portfolio-empty">{i18n.portfolio.noResults || 'No project matched your search.'}</p>
         )}
-        <div className="projects-grid" key={activeFilter}>
+        <div className="projects-grid" key={activeFilter} ref={portfolioRef}>
           {filteredProjects.map((item, idx) => (
             <ProjectCard
               key={item.key}
               item={item}
-              onClick={onOpenModal}
+              onCardClick={onOpenModal}
               index={idx}
               registerRef={registerProjectRef}
               highlighted={highlightedProjectKey === item.key}
@@ -741,6 +878,10 @@ function AppContent() {
         title: i18n.portfolio.title,
         description: i18n.portfolio.subtitle,
       },
+      '/service': {
+        title: i18n.service?.title || 'Service',
+        description: i18n.service?.subtitle || 'Client services and pricing.',
+      },
       '/contact': {
         title: i18n.contact.title,
         description: i18n.contact.subtitle,
@@ -808,6 +949,7 @@ function AppContent() {
               />
             }
           />
+          <Route path="/service" element={<Service />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<Hero onGoPortfolio={() => navigate('/portfolio')} totalProjects={totalProjects} totalCategories={themes.length} />} />
         </Routes>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tastella | Restaurant Website</title>
+		<meta
+			name="description"
+			content="Elegant restaurant website design with premium dining visuals and online reservation."
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="site-bg"></div>
+
+		<header class="site-header">
+			<div class="container nav-wrap">
+				<a class="brand" href="#home">TASTELLA</a>
+
+				<button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+
+				<nav class="main-nav" id="main-nav">
+					<a href="#home">Home</a>
+					<a href="#menu">Menu</a>
+					<a href="#about">About</a>
+					<a href="#gallery">Gallery</a>
+					<a href="#reservation">Reservation</a>
+					<a href="#contact">Contact</a>
+				</nav>
+			</div>
+		</header>
+
+		<main>
+			<section class="hero" id="home">
+				<div class="container hero-inner">
+					<div class="hero-copy reveal">
+						<h1>Delicious<br />Moments</h1>
+						<p>Experience the best food</p>
+						<a href="#reservation" class="btn-gold">Reserve a Table</a>
+					</div>
+				</div>
+			</section>
+
+			<section class="story" id="about">
+				<div class="container story-card reveal">
+					<div class="story-copy">
+						<h2>Our Story</h2>
+						<p>
+							Every plate is designed around rich flavor, balanced ingredients,
+							and warm atmosphere. Tastella combines classic culinary techniques
+							with modern elegance.
+						</p>
+						<a href="#menu" class="link-gold">Learn More</a>
+					</div>
+					<img
+						src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80"
+						alt="Fine dining restaurant interior"
+						loading="lazy"
+					/>
+				</div>
+			</section>
+
+			<section class="menu" id="menu">
+				<div class="container reveal">
+					<h2 class="section-title">Our Menu</h2>
+					<div class="menu-grid">
+						<article class="dish-card">
+							<img
+								src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+								alt="Grilled steak plate"
+								loading="lazy"
+							/>
+							<h3>Steak Supreme</h3>
+							<p>Premium cut, roasted garlic, signature reduction.</p>
+						</article>
+
+						<article class="dish-card">
+							<img
+								src="https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=800&q=80"
+								alt="Seafood plate"
+								loading="lazy"
+							/>
+							<h3>Ocean Delight</h3>
+							<p>Fresh seafood, citrus glaze, seasonal herbs.</p>
+						</article>
+
+						<article class="dish-card">
+							<img
+								src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=800&q=80"
+								alt="Gourmet pasta"
+								loading="lazy"
+							/>
+							<h3>Velvet Pasta</h3>
+							<p>House-made pasta with truffle cream and aged cheese.</p>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<section class="reservation" id="reservation">
+				<div class="container reservation-grid reveal">
+					<div class="reservation-copy">
+						<h2>Reservation</h2>
+						<p>Book your table and enjoy an unforgettable evening.</p>
+						<form class="reserve-form">
+							<label>
+								Name
+								<input type="text" placeholder="Your name" required />
+							</label>
+							<label>
+								Email
+								<input type="email" placeholder="you@email.com" required />
+							</label>
+							<label>
+								Date
+								<input type="date" required />
+							</label>
+							<label>
+								Guests
+								<input type="number" min="1" max="12" value="2" required />
+							</label>
+							<button type="submit" class="btn-gold">Book Now</button>
+						</form>
+					</div>
+
+					<img
+						src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80"
+						alt="Restaurant dish presentation"
+						loading="lazy"
+					/>
+				</div>
+			</section>
+		</main>
+
+		<footer class="site-footer" id="contact">
+			<div class="container footer-wrap">
+				<div class="footer-brand">
+					<img src="logo.png" alt="Sean's Studio logo" />
+				</div>
+				<p>SEAN'S STUDIO</p>
+				<p>Design • Develop • Create</p>
+			</div>
+		</footer>
+
+		<script src="scripts.js"></script>
+	</body>
+</html>

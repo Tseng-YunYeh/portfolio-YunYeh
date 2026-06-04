@@ -3,6 +3,7 @@
         "home": "首頁",
         "about": "關於我",
         "portfolio": "作品集",
+        "service": "服務",
         "contact": "聯絡我",
         "login": "登入",
         "logout": "登出",
@@ -37,12 +38,69 @@
         "exp2_desc": ""
     },
     "portfolio": {
-        "title": "我的作品",
-        "subtitle": "近期專案精選。",
+        "title": "學校作品",
+        "subtitle": "在學校完成的專案精選。",
         "filterAll": "全部",
         "noResults": "沒有符合您搜尋條件的專案。",
         "clickToDownload": "點擊下載",
         "viewLive": "查看實時"
+    },
+    "service": {
+        "title": "服務",
+        "subtitle": "客戶服務、價格與作品範例。",
+        "badge": "服務",
+        "heroTitle": "兼具學校作品精準度的客戶服務",
+        "heroLead": "我可以為客戶提供乾淨的品牌設計、精緻的視覺圖像與客製化網站。以下是我的服務與一些精選客戶專案。",
+        "requestQuote": "索取報價",
+        "viewSchoolWork": "查看學校作品",
+        "points": [
+            "簡單素材可快速交件",
+            "適合手機瀏覽的響應式網站",
+            "乾淨的交付檔案與清楚溝通"
+        ],
+        "startingPricesLabel": "起始價格",
+        "startingPricesValue": "從 $15 CAD 起",
+        "startingPricesText": "適合社群圖像與快速視覺交付。",
+        "webBuildsLabel": "網站製作",
+        "webBuildsValue": "從 $150 CAD 起",
+        "webBuildsText": "登陸頁、作品集網站與小型商業網站。",
+        "customWorkLabel": "客製化工作",
+        "customWorkValue": "需報價",
+        "customWorkText": "適用於內容或功能需求較特殊的大型專案。",
+        "whatIDoBadge": "我可以做的事",
+        "servicesTitle": "服務與價格",
+        "servicesSubtitle": "我目前可提供的客戶服務一覽。",
+        "graphicDesign": {
+            "title": "平面設計",
+            "subtitle": "讓品牌與活動看起來更完整的視覺作品。",
+            "items": [
+                { "name": "Logo 設計", "price": "從 $40 CAD 起", "note": "簡潔易記的標誌與乾淨的輸出檔案。" },
+                { "name": "海報設計", "price": "從 $25 CAD 起", "note": "適合活動、學校作業與宣傳的可印刷版面。" },
+                { "name": "社群貼文", "price": "從 $15 CAD 起", "note": "適合動態牆、限動與宣傳的快速圖像。" },
+                { "name": "名片設計", "price": "從 $25 CAD 起", "note": "專業感十足的精緻品牌名片。" }
+            ]
+        },
+        "webDevelopment": {
+            "title": "網站開發",
+            "subtitle": "在各種螢幕上都能呈現良好的現代網站。",
+            "items": [
+                { "name": "登陸頁", "price": "從 $150 CAD 起", "note": "適合活動或發布的單頁式體驗。" },
+                { "name": "作品集網站", "price": "從 $200 CAD 起", "note": "清楚展示作品與技能的個人網站。" },
+                { "name": "小型商業網站", "price": "從 $300 CAD 起", "note": "適合服務、聯絡與建立信任的多區塊網站。" },
+                { "name": "客製化網站", "price": "需報價", "note": "依你的目標與時程量身打造。" }
+            ]
+        },
+        "clientWork": {
+            "badge": "客戶作品",
+            "title": "精選客戶作品",
+            "subtitle": "真實客戶專案與交付物。",
+            "note": "",
+            "items": [
+                { "title": "Tastella Restaurant", "description": "為 Tastella Restaurant 製作的餐廳網站。", "label": "網站", "url": "/webs/custome-web01/index.html", "image": "/imgs/custom-web01.jpg" },
+                { "title": "品牌與 Logo", "description": "可作為案例研究加入的品牌識別與 logo 專案。", "label": "品牌", "image": "/imgs/default-logo.svg" },
+                { "title": "行銷素材", "description": "社群貼文、海報、名片等視覺交付物。", "label": "設計", "image": "/imgs/default-design.svg" }
+            ]
+        }
     },
     "contact": {
         "title": "聯絡方式",
@@ -63,7 +121,7 @@
         "rights": "© 2026 MyPortfolio. 保留所有權利。",
         "description": "創造啟發和創新的數位體驗。讓我們一起打造非凡的作品。",
         "searchProjects": "搜尋專案",
-        "searchText": "在我的作品集中查找特定專案。",
+        "searchText": "在我的學校作品中查找特定專案。",
         "searchPlaceholder": "搜尋專案...",
         "connect": "與我聯繫",
         "connectText": "在社群媒體上追蹤我，獲取最新動態和幕後內容。",

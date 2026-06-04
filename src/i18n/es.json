@@ -3,6 +3,7 @@
         "home": "Inicio",
         "about": "Sobre mí",
         "portfolio": "Portafolio",
+        "service": "Servicio",
         "contact": "Contacto",
         "login": "Iniciar sesión",
         "logout": "Cerrar sesión",
@@ -37,12 +38,69 @@
         "exp2_desc": ""
     },
     "portfolio": {
-        "title": "Mi Trabajo",
-        "subtitle": "Una selección de mis proyectos recientes.",
+        "title": "Trabajo escolar",
+        "subtitle": "Una selección de proyectos realizados en la escuela.",
         "filterAll": "Todos",
         "noResults": "Ningún proyecto coincide con tu búsqueda.",
         "clickToDownload": "Clic para Descargar",
         "viewLive": "Ver en vivo"
+    },
+    "service": {
+        "title": "Servicio",
+        "subtitle": "Servicios para clientes, precios y ejemplos de trabajo.",
+        "badge": "Servicio",
+        "heroTitle": "Servicios para clientes con precisión de proyecto escolar",
+        "heroLead": "Puedo ayudar a clientes con branding limpio, gráficos pulidos y sitios web personalizados. Aquí están mis servicios y algunos proyectos de clientes seleccionados.",
+        "requestQuote": "Pedir un presupuesto",
+        "viewSchoolWork": "Ver trabajo escolar",
+        "points": [
+            "Entrega rápida para piezas simples",
+            "Sitios responsivos pensados para móvil",
+            "Archivos finales limpios y comunicación clara"
+        ],
+        "startingPricesLabel": "Precios iniciales",
+        "startingPricesValue": "Desde $15 CAD",
+        "startingPricesText": "Perfecto para gráficos sociales y entregables rápidos.",
+        "webBuildsLabel": "Desarrollo web",
+        "webBuildsValue": "Desde $150 CAD",
+        "webBuildsText": "Landing pages, portafolios y sitios para pequeñas empresas.",
+        "customWorkLabel": "Trabajo personalizado",
+        "customWorkValue": "Presupuesto requerido",
+        "customWorkText": "Para proyectos más grandes con contenido o funciones especiales.",
+        "whatIDoBadge": "Lo que hago",
+        "servicesTitle": "Servicios y precios",
+        "servicesSubtitle": "Un menú claro del trabajo para clientes que puedo ofrecer ahora mismo.",
+        "graphicDesign": {
+            "title": "Diseño gráfico",
+            "subtitle": "Piezas visuales que hacen que marcas y eventos se vean más pulidos.",
+            "items": [
+                { "name": "Diseño de logo", "price": "Desde $40 CAD", "note": "Marcas simples y memorables con archivos de exportación limpios." },
+                { "name": "Diseño de póster", "price": "Desde $25 CAD", "note": "Maquetas listas para imprimir para eventos, trabajos escolares y campañas." },
+                { "name": "Publicación para redes sociales", "price": "Desde $15 CAD", "note": "Gráficos rápidos para feeds, historias y promociones." },
+                { "name": "Diseño de tarjeta de presentación", "price": "Desde $25 CAD", "note": "Tarjetas compactas con un acabado profesional." }
+            ]
+        },
+        "webDevelopment": {
+            "title": "Desarrollo web",
+            "subtitle": "Sitios modernos creados para verse bien en cualquier pantalla.",
+            "items": [
+                { "name": "Landing page", "price": "Desde $150 CAD", "note": "Experiencias de una sola página para campañas o lanzamientos." },
+                { "name": "Sitio portafolio", "price": "Desde $200 CAD", "note": "Un sitio personal que destaca proyectos y habilidades claramente." },
+                { "name": "Sitio para pequeña empresa", "price": "Desde $300 CAD", "note": "Sitios de varias secciones para servicios, contacto y confianza." },
+                { "name": "Sitio personalizado", "price": "Presupuesto requerido", "note": "Proyectos hechos a medida según tus objetivos y tiempos." }
+            ]
+        },
+        "clientWork": {
+            "badge": "Trabajo para clientes",
+            "title": "Trabajos de clientes seleccionados",
+            "subtitle": "Proyectos de clientes y entregables reales.",
+            "note": "",
+            "items": [
+                { "title": "Tastella Restaurant", "description": "Un sitio web de restaurante hecho para Tastella Restaurant.", "label": "Web", "url": "/webs/custome-web01/index.html", "image": "/imgs/custom-web01.jpg" },
+                { "title": "Branding & Logo", "description": "Proyectos de identidad de marca y logos que se pueden agregar como estudios de caso.", "label": "Branding", "image": "/imgs/default-logo.svg" },
+                { "title": "Assets de marketing", "description": "Publicaciones sociales, pósters, tarjetas y otros entregables visuales.", "label": "Design", "image": "/imgs/default-design.svg" }
+            ]
+        }
     },
     "contact": {
         "title": "Contáctame",
@@ -63,7 +121,7 @@
         "rights": "© 2026 MyPortfolio. Todos los derechos reservados.",
         "description": "Creando experiencias digitales que inspiran e innovan. Construyamos algo increíble juntos.",
         "searchProjects": "Buscar Proyectos",
-        "searchText": "Encuentra proyectos específicos de mi portfolio.",
+        "searchText": "Encuentra proyectos específicos de mi trabajo escolar.",
         "searchPlaceholder": "Buscar proyectos...",
         "connect": "Conectar",
         "connectText": "Sígueme en redes sociales para actualizaciones y contenido detrás de escenas.",

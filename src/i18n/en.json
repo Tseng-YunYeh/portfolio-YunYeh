@@ -3,6 +3,7 @@
         "home": "Home",
         "about": "About",
         "portfolio": "Portfolio",
+        "service": "Service",
         "contact": "Contact",
         "login": "Sign in",
         "logout": "Sign out",
@@ -37,12 +38,69 @@
         "exp2_desc": ""
     },
     "portfolio": {
-        "title": "My Work",
-        "subtitle": "A selection of my recent projects.",
+        "title": "School Work",
+        "subtitle": "A selection of my projects created at school.",
         "filterAll": "All",
         "noResults": "No project matched your search.",
         "clickToDownload": "Click to Download",
         "viewLive": "View Live"
+    },
+    "service": {
+        "title": "Service",
+        "subtitle": "Client services, pricing, and selected work examples.",
+        "badge": "Service",
+        "heroTitle": "Client services with school-project precision",
+        "heroLead": "I help clients with clean branding, polished graphics, and custom websites. Below are my services and selected client projects.",
+        "requestQuote": "Request a quote",
+        "viewSchoolWork": "View school work",
+        "points": [
+            "Fast turnarounds for simple assets",
+            "Responsive websites built for mobile",
+            "Clean handoff files and clear communication"
+        ],
+        "startingPricesLabel": "Starting prices",
+        "startingPricesValue": "From $15 CAD",
+        "startingPricesText": "Perfect for social graphics and quick visual deliverables.",
+        "webBuildsLabel": "Web builds",
+        "webBuildsValue": "From $150 CAD",
+        "webBuildsText": "Landing pages, portfolio sites, and small business websites.",
+        "customWorkLabel": "Custom work",
+        "customWorkValue": "Quote Required",
+        "customWorkText": "For bigger projects with unique content or functionality needs.",
+        "whatIDoBadge": "What I do",
+        "servicesTitle": "Services and pricing",
+        "servicesSubtitle": "A clear menu of the client work I can offer right now.",
+        "graphicDesign": {
+            "title": "Graphic Design",
+            "subtitle": "Visual pieces that make brands and events feel polished.",
+            "items": [
+                { "name": "Logo Design", "price": "From $40 CAD", "note": "Simple, memorable marks with clean export files." },
+                { "name": "Poster Design", "price": "From $25 CAD", "note": "Print-ready layouts for events, school work, and campaigns." },
+                { "name": "Social Media Post", "price": "From $15 CAD", "note": "Fast-turn graphics sized for feeds, stories, and promos." },
+                { "name": "Business Card Design", "price": "From $25 CAD", "note": "Compact brand cards with a professional finish." }
+            ]
+        },
+        "webDevelopment": {
+            "title": "Web Development",
+            "subtitle": "Modern websites built to look good on every screen.",
+            "items": [
+                { "name": "Landing Page", "price": "From $150 CAD", "note": "Focused single-page experiences for campaigns or launches." },
+                { "name": "Portfolio Website", "price": "From $200 CAD", "note": "A personal site that highlights projects and skills clearly." },
+                { "name": "Small Business Website", "price": "From $300 CAD", "note": "Clean multi-section sites for services, contact, and trust." },
+                { "name": "Custom Website", "price": "Quote Required", "note": "Tailored builds scoped to your goals and timeline." }
+            ]
+        },
+        "clientWork": {
+            "badge": "Client work",
+            "title": "Selected client work",
+            "subtitle": "Real client projects and deliverables.",
+            "note": "",
+            "items": [
+                { "title": "Tastella Restaurant", "description": "A custom restaurant website made for Tastella Restaurant.", "label": "Web", "url": "/webs/custome-web01/index.html", "image": "/imgs/custom-web01.jpg" },
+                { "title": "Branding & Logo", "description": "Brand identity and logo projects that can be added as case studies.", "label": "Branding", "image": "/imgs/default-logo.svg" },
+                { "title": "Marketing Assets", "description": "Social posts, posters, business cards, and other visual deliverables.", "label": "Design", "image": "/imgs/default-design.svg" }
+            ]
+        }
     },
     "contact": {
         "title": "Get In Touch",
@@ -63,7 +121,7 @@
         "rights": "© 2026 MyPortfolio. All rights reserved.",
         "description": "Creating digital experiences that inspire and innovate. Let's build something amazing together.",
         "searchProjects": "Search Projects",
-        "searchText": "Find specific projects from my portfolio.",
+        "searchText": "Find specific projects from my school work.",
         "searchPlaceholder": "Search projects...",
         "connect": "Connect",
         "connectText": "Follow me on social media for updates and behind-the-scenes content.",
