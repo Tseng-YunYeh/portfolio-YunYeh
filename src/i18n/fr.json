@@ -96,9 +96,10 @@
             "subtitle": "Projets clients et livrables réels.",
             "note": "",
             "items": [
-                { "title": "Tastella Restaurant", "description": "Un site web de restaurant créé pour Tastella Restaurant.", "label": "Web", "url": "/webs/custome-web01/index.html", "image": "/imgs/custom-web01.jpg" },
-                { "title": "Branding & Logo", "description": "Projets d'identité visuelle et logos pouvant être ajoutés comme études de cas.", "label": "Branding", "image": "/imgs/default-logo.svg" },
-                { "title": "Assets marketing", "description": "Publications sociales, affiches, cartes et autres livrables visuels.", "label": "Design", "image": "/imgs/default-design.svg" }
+                { "title": "Tastella Restaurant", "description": "Un site web de restaurant sur mesure. Cliquez sur la carte pour l'aperçu et la version en direct.", "label": "Web", "url": "/webs/custome-web01/index.html", "image": "/imgs/custom-web01.jpg" },
+                { "title": "NOBLE COFFEE", "description": "Premier concept de logo client affiché en taille réelle.", "label": "Logo", "image": "/imgs/l.ogo1.jpg" },
+                { "title": "LUXORA", "description": "Deuxième exploration de logo avec une touche moderne et propre.", "label": "Logo", "image": "/imgs/logo2.jpg" },
+                { "title": "PRIME", "description": "Troisième exploration de logo avec une finition plus raffinée.", "label": "Logo", "image": "/imgs/logo3.jpg" }
             ]
         }
     },

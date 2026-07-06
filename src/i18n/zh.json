@@ -96,9 +96,10 @@
             "subtitle": "真實客戶專案與交付物。",
             "note": "",
             "items": [
-                { "title": "Tastella Restaurant", "description": "為 Tastella Restaurant 製作的餐廳網站。", "label": "網站", "url": "/webs/custome-web01/index.html", "image": "/imgs/custom-web01.jpg" },
-                { "title": "品牌與 Logo", "description": "可作為案例研究加入的品牌識別與 logo 專案。", "label": "品牌", "image": "/imgs/default-logo.svg" },
-                { "title": "行銷素材", "description": "社群貼文、海報、名片等視覺交付物。", "label": "設計", "image": "/imgs/default-design.svg" }
+                { "title": "Tastella Restaurant", "description": "為 Tastella Restaurant 製作的客製餐廳網站。點擊卡片可預覽並開啟線上版本。", "label": "網站", "url": "/webs/custome-web01/index.html", "image": "/imgs/custom-web01.jpg" },
+                { "title": "NOBLE COFFEE", "description": "第一個客戶 logo 概念，以完整尺寸展示。", "label": "Logo", "image": "/imgs/l.ogo1.jpg" },
+                { "title": "LUXORA", "description": "第二個 logo 版本，線條更乾淨、風格更現代。", "label": "Logo", "image": "/imgs/logo2.jpg" },
+                { "title": "PRIME", "description": "第三個 logo 版本，整體更精緻。", "label": "Logo", "image": "/imgs/logo3.jpg" }
             ]
         }
     },

@@ -322,12 +322,25 @@ function Service() {
     { icon: FiPenTool, ...s.graphicDesign },
     { icon: FiMonitor, ...s.webDevelopment },
   ]
-  const clientHighlights = [
-    { icon: FiStar, ...s.clientWork.items[0] },
-    { icon: FiLayers, ...s.clientWork.items[1] },
-    { icon: FiPackage, ...s.clientWork.items[2] },
-  ]
-  const showcaseRef = useRef(null)
+  const clientProjects = useMemo(() => {
+    const fallbackIcons = [FiExternalLink, FiStar, FiLayers, FiPackage]
+    return (s.clientWork.items || []).map((item, index) => ({
+      ...item,
+      kind: item.url ? 'web' : 'logo',
+      icon: fallbackIcons[index] || FiFileText,
+    }))
+  }, [s])
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0)
+  const [selectedProject, setSelectedProject] = useState(null)
+
+  useEffect(() => {
+    if (activeProjectIndex >= clientProjects.length) setActiveProjectIndex(0)
+  }, [activeProjectIndex, clientProjects.length])
+
+  const shiftProject = (delta) => {
+    if (!clientProjects.length) return
+    setActiveProjectIndex((current) => (current + delta + clientProjects.length) % clientProjects.length)
+  }
 
   return (
     <section id="service" className="service-section">
@@ -410,37 +423,129 @@ function Service() {
           <p className="section-subtitle">{s.clientWork.subtitle}</p>
         </div>
 
-        <div className="service-showcase-grid" ref={showcaseRef}>
-          {clientHighlights.map(({ icon: Icon, title, description, label, url, image }) => (
-            <article key={title} className="service-showcase-card">
-              <div className="service-showcase-thumb-wrap">
-                {image && <img className="service-showcase-thumb" src={resolveUrl(image)} alt={title} />}
-              </div>
-              <div className="service-showcase-icon"><Icon /></div>
-              <div className="service-showcase-label">{label}</div>
-              <h3>{title}</h3>
-              <p>{description}</p>
-              <div className="service-showcase-actions">
-                {url ? (
-                  <a href={resolveUrl(url)} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-                    {s.viewLive || 'View live'} <FiExternalLink />
-                  </a>
-                ) : (
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <button className="btn btn-primary" onClick={() => navigate('/contact')}>
-                      {s.requestQuote}
-                    </button>
-                    <button className="btn btn-outline" onClick={() => navigate('/portfolio')}>
-                      {s.viewSchoolWork}
-                    </button>
+        <div className="service-showcase-carousel">
+          <button
+            type="button"
+            className="service-carousel-btn service-carousel-btn-left"
+            onClick={() => shiftProject(-1)}
+            aria-label="Previous client project"
+          >
+            ‹
+          </button>
+
+          <div className="service-project-stage" aria-label="Client project carousel">
+            {clientProjects.map((project, index) => {
+              const total = clientProjects.length
+              const offset = (index - activeProjectIndex + total) % total
+              const variant = offset === 0 ? 'active' : offset === 1 ? 'next' : offset === total - 1 ? 'prev' : 'hidden'
+              const Icon = project.icon
+
+              return (
+                <button
+                  key={`${project.title}-${index}`}
+                  type="button"
+                  className={`service-project-card service-project-card-${variant}`}
+                  onClick={() => {
+                    if (variant === 'active') setSelectedProject(project)
+                    else setActiveProjectIndex(index)
+                  }}
+                >
+                  <div className="service-project-media">
+                    {project.image && <img src={resolveUrl(project.image)} alt={project.title} className="service-project-image" />}
+                    <span className="service-project-badge">{project.label}</span>
+                    <span className="service-project-icon"><Icon /></span>
                   </div>
-                )}
-              </div>
-            </article>
-          ))}
+                  <div className="service-project-content">
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className="service-project-action-hint">
+                      {variant === 'active'
+                        ? (project.kind === 'web' ? 'Open web preview' : 'Open full image')
+                        : 'Move to center'}
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          <button
+            type="button"
+            className="service-carousel-btn service-carousel-btn-right"
+            onClick={() => shiftProject(1)}
+            aria-label="Next client project"
+          >
+            ›
+          </button>
         </div>
       </div>
+
+      {selectedProject && (
+        <ServiceProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+          viewLiveLabel={s.viewLive || 'View live'}
+        />
+      )}
     </section>
+  )
+}
+
+/* ===== ServiceProjectModal ===== */
+function ServiceProjectModal({ project, onClose, viewLiveLabel }) {
+  const title = project?.title || ''
+
+  useEffect(() => {
+    const handleKey = (event) => {
+      if (event.key === 'Escape') onClose()
+    }
+
+    document.addEventListener('keydown', handleKey)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleKey)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+
+  return (
+    <div className="service-project-modal-backdrop" onClick={onClose}>
+      <div className={`service-project-modal service-project-modal-${project.kind}`} onClick={(event) => event.stopPropagation()}>
+        <button type="button" className="service-project-modal-close" onClick={onClose} aria-label="Close project preview">
+          ✕
+        </button>
+
+        <div className="service-project-modal-media">
+          {project.kind === 'web' ? (
+            <div className="service-project-preview-shell">
+              <div className="service-project-preview-topbar">
+                <span />
+                <span />
+                <span />
+              </div>
+              <iframe src={resolveUrl(project.url)} title={title} className="service-project-preview-frame" />
+            </div>
+          ) : (
+            <img src={resolveUrl(project.image)} alt={title} className="service-project-full-image" />
+          )}
+        </div>
+
+        <div className="service-project-modal-body">
+          <div className="service-project-modal-meta">
+            <span className="service-project-modal-label">{project.label}</span>
+            <h3>{title}</h3>
+          </div>
+          <p>{project.description}</p>
+
+          {project.kind === 'web' && project.url && (
+            <a href={resolveUrl(project.url)} target="_blank" rel="noopener noreferrer" className="btn btn-primary service-project-modal-link">
+              {viewLiveLabel} <FiExternalLink />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
