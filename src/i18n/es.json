@@ -9,6 +9,27 @@
         "logout": "Cerrar sesión",
         "admin": "Admin"
     },
+    "common": {
+        "cancel": "Cancelar"
+    },
+    "auth": {
+        "disconnectConfirmTitle": "¿Cerrar sesión?",
+        "disconnectConfirmMessage": "¿De verdad quieres cerrar sesión?",
+        "connectSuccess": "Has iniciado sesión.",
+        "connectError": "Error al iniciar sesión. Inténtalo de nuevo.",
+        "disconnectSuccess": "Has cerrado sesión.",
+        "disconnectError": "Error al cerrar sesión. Inténtalo de nuevo."
+    },
+    "toast": {
+        "projectNotInDb": "Este proyecto aún no está en la base de datos. Importa los datos primero.",
+        "likeLoginRequired": "Inicia sesión para dar like a este proyecto.",
+        "likeError": "Error al dar like al proyecto.",
+        "projectUpdated": "Proyecto actualizado.",
+        "projectCreated": "Proyecto creado.",
+        "saveError": "Error al guardar el proyecto.",
+        "projectDeleted": "Proyecto y archivos eliminados.",
+        "deleteError": "Error al eliminar el proyecto."
+    },
     "home": {
         "greeting": "Hola, soy",
         "role": "Desarrollador Creativo y Diseñador",

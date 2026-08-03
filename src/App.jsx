@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef, createContext, useContext } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { bd } from './firebase/init'
 import { collection, getDocs, onSnapshot, doc } from 'firebase/firestore'
 import { useAuth } from './context/AuthContext'
@@ -17,6 +17,8 @@ import './App.css'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminPage from './admin-page/Admin.jsx'
 import { useToast, ToastProvider } from './context/ToastContext'
+import ConfirmDialog from './components/ConfirmDialog'
+import { LanguageProvider, useLanguage } from './context/LanguageContext'
 import { basculerLike } from './firebase/project-modele' 
 
 /************************************************/
@@ -24,42 +26,6 @@ import { basculerLike } from './firebase/project-modele'
 /************************************************/
 // import remplirCollectionProjects from './scripts/donnees-test'
 // remplirCollectionProjects()
-
-/* ===== Language Context ===== */
-const TRANSLATIONS = { en, fr, es, zh }
-const LanguageContext = createContext()
-
-function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'en')
-
-  const switchLanguage = useCallback((newLang) => {
-    setLang(newLang)
-    localStorage.setItem('lang', newLang)
-  }, [])
-
-  const i18n = useMemo(() => TRANSLATIONS[lang], [lang])
-
-  const tObj = useCallback(
-    (obj) => {
-      if (!obj) return ''
-      if (typeof obj === 'string') return obj
-      return obj[lang] || obj.en || ''
-    },
-    [lang]
-  )
-
-  return (
-    <LanguageContext.Provider value={{ lang, switchLanguage, i18n, tObj }}>
-      {children}
-    </LanguageContext.Provider>
-  )
-}
-
-function useLanguage() {
-  const ctx = useContext(LanguageContext)
-  if (!ctx) throw new Error('useLanguage must be used within LanguageProvider')
-  return ctx
-}
 
 /* ===== Constants ===== */
 const BASE = import.meta.env.BASE_URL
@@ -155,6 +121,33 @@ function Navbar({ scrolled }) {
   const { showToast } = useToast()
   const navigate = useNavigate()
   const [mobileNav, setMobileNav] = useState(false)
+  const [logoutOpen, setLogoutOpen] = useState(false)
+
+  const isSilentLoginCancel = (error) => {
+    const code = error?.code
+    return code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request'
+  }
+
+  const handleLogin = useCallback(async () => {
+    try {
+      await connexion()
+      showToast(i18n.auth.connectSuccess, { type: 'success' })
+    } catch (error) {
+      if (isSilentLoginCancel(error)) return
+      console.error(error)
+      showToast(i18n.auth.connectError, { type: 'error' })
+    }
+  }, [connexion, i18n, showToast])
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await deconnexion()
+      showToast(i18n.auth.disconnectSuccess, { type: 'info' })
+    } catch (error) {
+      console.error(error)
+      showToast(i18n.auth.disconnectError, { type: 'error' })
+    }
+  }, [deconnexion, i18n, showToast])
 
   const handleNav = () => setMobileNav(false)
 
@@ -195,12 +188,12 @@ function Navbar({ scrolled }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 8 }}>
           {!utilisateur ? (
             <div className="nav-user nav-user-login">
-              <button className="btn-logout" onClick={connexion}>{i18n.nav?.login || 'Connect'}</button>
+              <button className="btn-logout" onClick={handleLogin}>{i18n.nav?.login || 'Connect'}</button>
             </div>
           ) : (
             <div className="nav-user">
               <img src={utilisateur.photoURL} alt={utilisateur.displayName} className="user-avatar" />
-              <button className="btn-logout" onClick={deconnexion}>{i18n.nav?.logout || 'Logout'}</button>
+              <button className="btn-logout" onClick={() => setLogoutOpen(true)}>{i18n.nav?.logout || 'Logout'}</button>
             </div>
           )}
         </div>
@@ -209,6 +202,18 @@ function Navbar({ scrolled }) {
       <button className={`nav-toggle ${mobileNav ? 'open' : ''}`} onClick={() => setMobileNav(!mobileNav)} aria-label="Menu">
         <span /><span /><span />
       </button>
+      <ConfirmDialog
+        open={logoutOpen}
+        title={i18n.auth.disconnectConfirmTitle}
+        message={i18n.auth.disconnectConfirmMessage}
+        confirmLabel={i18n.nav?.logout || 'Logout'}
+        cancelLabel={i18n.common.cancel}
+        onCancel={() => setLogoutOpen(false)}
+        onConfirm={async () => {
+          setLogoutOpen(false)
+          await handleLogout()
+        }}
+      />
     </nav>
   )
 }
@@ -551,7 +556,7 @@ function ServiceProjectModal({ project, onClose, viewLiveLabel }) {
 
 /* ===== ProjectCard ===== */
 function ProjectCard({ item, onCardClick, index, registerRef, highlighted }) {
-  const { tObj } = useLanguage()
+  const { tObj, i18n } = useLanguage()
   const { project, theme, key } = item
   const title = tObj(project.title)
   const OverlayIcon = OVERLAY_ICONS[project.type] || FiFileText
@@ -580,16 +585,16 @@ function ProjectCard({ item, onCardClick, index, registerRef, highlighted }) {
 
   const handleLike = async (e) => {
     e.stopPropagation()
-    if (!project.id) { showToast("Ce projet n'est pas encore dans la base. Importez les données.", { type: 'info' }); return }
+    if (!project.id) { showToast(i18n.toast.projectNotInDb, { type: 'info' }); return }
     setIsLiking(true)
     try {
-      if (!utilisateur) { showToast('Connectez-vous pour aimer', { type: 'info' }); setIsLiking(false); return }
+      if (!utilisateur) { showToast(i18n.toast.likeLoginRequired, { type: 'info' }); setIsLiking(false); return }
       const uid = utilisateur.uid
       const displayName = utilisateur.displayName || 'Utilisateur'
       await basculerLike(project.id, uid, displayName)
     } catch (err) {
       console.error(err)
-      showToast('Erreur lors du like', { type: 'error' })
+      showToast(i18n.toast.likeError, { type: 'error' })
     } finally {
       setIsLiking(false)
     }

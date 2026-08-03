@@ -9,6 +9,27 @@
         "logout": "Sign out",
         "admin": "Admin"
     },
+    "common": {
+        "cancel": "Cancel"
+    },
+    "auth": {
+        "disconnectConfirmTitle": "Sign out?",
+        "disconnectConfirmMessage": "Do you really want to sign out?",
+        "connectSuccess": "You are signed in.",
+        "connectError": "Sign in failed. Please try again.",
+        "disconnectSuccess": "You are signed out.",
+        "disconnectError": "Sign out failed. Please try again."
+    },
+    "toast": {
+        "projectNotInDb": "This project is not in the database yet. Import the data first.",
+        "likeLoginRequired": "Sign in to like this project.",
+        "likeError": "Error while liking the project.",
+        "projectUpdated": "Project updated.",
+        "projectCreated": "Project created.",
+        "saveError": "Error while saving the project.",
+        "projectDeleted": "Project and files deleted.",
+        "deleteError": "Error while deleting the project."
+    },
     "home": {
         "greeting": "Hello, I'm",
         "role": "Creative Developer & Designer",

@@ -9,6 +9,27 @@
         "logout": "Se déconnecter",
         "admin": "Admin"
     },
+    "common": {
+        "cancel": "Annuler"
+    },
+    "auth": {
+        "disconnectConfirmTitle": "Se déconnecter ?",
+        "disconnectConfirmMessage": "Voulez-vous vraiment vous déconnecter ?",
+        "connectSuccess": "Vous êtes connecté.",
+        "connectError": "La connexion a échoué. Veuillez réessayer.",
+        "disconnectSuccess": "Vous êtes déconnecté.",
+        "disconnectError": "La déconnexion a échoué. Veuillez réessayer."
+    },
+    "toast": {
+        "projectNotInDb": "Ce projet n'est pas encore dans la base. Importez les données.",
+        "likeLoginRequired": "Connectez-vous pour aimer ce projet.",
+        "likeError": "Erreur lors du like.",
+        "projectUpdated": "Projet mis à jour.",
+        "projectCreated": "Projet créé.",
+        "saveError": "Erreur lors de la sauvegarde du projet.",
+        "projectDeleted": "Projet et fichiers supprimés.",
+        "deleteError": "Erreur lors de la suppression du projet."
+    },
     "home": {
         "greeting": "Bonjour, je suis",
         "role": "Développeur Créatif & Designer",

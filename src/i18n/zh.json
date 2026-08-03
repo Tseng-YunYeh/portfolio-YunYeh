@@ -9,6 +9,27 @@
         "logout": "登出",
         "admin": "管理"
     },
+    "common": {
+        "cancel": "取消"
+    },
+    "auth": {
+        "disconnectConfirmTitle": "要登出嗎？",
+        "disconnectConfirmMessage": "你真的要登出嗎？",
+        "connectSuccess": "你已登入。",
+        "connectError": "登入失敗，請再試一次。",
+        "disconnectSuccess": "你已登出。",
+        "disconnectError": "登出失敗，請再試一次。"
+    },
+    "toast": {
+        "projectNotInDb": "這個專案還不在資料庫中，請先匯入資料。",
+        "likeLoginRequired": "請先登入才能喜歡這個專案。",
+        "likeError": "喜歡專案時發生錯誤。",
+        "projectUpdated": "專案已更新。",
+        "projectCreated": "專案已建立。",
+        "saveError": "儲存專案時發生錯誤。",
+        "projectDeleted": "專案和檔案已刪除。",
+        "deleteError": "刪除專案時發生錯誤。"
+    },
     "home": {
         "greeting": "你好，我是",
         "role": "創意開發者 & 設計師",

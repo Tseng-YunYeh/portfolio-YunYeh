@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
+import { useLanguage } from '../context/LanguageContext'
+import ConfirmDialog from '../components/ConfirmDialog'
 import { bd, storage } from '../firebase/init'
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL, deleteObject, listAll } from 'firebase/storage'
@@ -10,12 +12,19 @@ import './Admin.css'
 export default function Admin() {
   const { utilisateur, connexion, deconnexion } = useAuth()
   const { showToast } = useToast()
+  const { i18n } = useLanguage()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [projects, setProjects] = useState([])
   const [form, setForm] = useState({ title_en: '', title_fr: '', title_es: '', title_zh: '', type: 'web', link: '', imageFile: null, imageFiles: [], pdfFile: null, coverFile: null, videoFile: null })
   const [editingId, setEditingId] = useState(null)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [logoutOpen, setLogoutOpen] = useState(false)
+
+  const isSilentLoginCancel = (error) => {
+    const code = error?.code
+    return code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request'
+  }
 
   const colRef = collection(bd, 'projects')
 
@@ -103,10 +112,10 @@ export default function Admin() {
 
       if (editingId) {
         await updateDoc(doc(bd, 'projects', editingId), payload)
-        showToast('Projet mis à jour', { type: 'info' })
+        showToast(i18n.toast.projectUpdated, { type: 'info' })
       } else {
         await addDoc(colRef, payload)
-        showToast('Projet créé', { type: 'info' })
+        showToast(i18n.toast.projectCreated, { type: 'info' })
       }
 
       setForm({ title_en: '', title_fr: '', title_es: '', title_zh: '', type: 'web', link: '', imageFile: null, imageFiles: [], pdfFile: null, coverFile: null, videoFile: null, existingImage: null, existingLink: null, existingImages: [] })
@@ -115,7 +124,7 @@ export default function Admin() {
       await fetchProjects()
     } catch (err) {
       console.error(err)
-      showToast('Erreur lors de la sauvegarde', { type: 'error' })
+      showToast(i18n.toast.saveError, { type: 'error' })
     }
     setLoading(false)
     setUploadProgress(0)
@@ -187,11 +196,32 @@ export default function Admin() {
 
       // Delete project document
       await deleteDoc(doc(bd, 'projects', id))
-      showToast('Projet et fichiers supprimés', { type: 'info' })
+      showToast(i18n.toast.projectDeleted, { type: 'info' })
       await fetchProjects()
     } catch (err) {
       console.error(err)
-      showToast('Erreur lors de la suppression', { type: 'error' })
+      showToast(i18n.toast.deleteError, { type: 'error' })
+    }
+  }
+
+  const handleLogin = async () => {
+    try {
+      await connexion()
+      showToast(i18n.auth.connectSuccess, { type: 'success' })
+    } catch (error) {
+      if (isSilentLoginCancel(error)) return
+      console.error(error)
+      showToast(i18n.auth.connectError, { type: 'error' })
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await deconnexion()
+      showToast(i18n.auth.disconnectSuccess, { type: 'info' })
+    } catch (error) {
+      console.error(error)
+      showToast(i18n.auth.disconnectError, { type: 'error' })
     }
   }
 
@@ -204,7 +234,7 @@ export default function Admin() {
         </div>
         <div className="admin-not-auth">
           <p className="admin-notice">Vous devez vous connecter pour accéder à l'administration.</p>
-          <button className="btn btn-primary btn-large" onClick={connexion}>Se connecter</button>
+          <button className="btn btn-primary btn-large" onClick={handleLogin}>Se connecter</button>
         </div>
       </div>
     )
@@ -218,7 +248,7 @@ export default function Admin() {
         <div className="user-info">
           <img src={utilisateur.photoURL} alt={utilisateur.displayName} className="avatar-small" />
           <span>{utilisateur.displayName}</span>
-          <button className="btn btn-logout" onClick={deconnexion}>Se déconnecter</button>
+          <button className="btn btn-logout" onClick={() => setLogoutOpen(true)}>{i18n.nav.logout}</button>
         </div>
       </div>
 
@@ -409,6 +439,18 @@ export default function Admin() {
           </div>
         )}
       </section>
+      <ConfirmDialog
+        open={logoutOpen}
+        title={i18n.auth.disconnectConfirmTitle}
+        message={i18n.auth.disconnectConfirmMessage}
+        confirmLabel={i18n.nav.logout}
+        cancelLabel={i18n.common.cancel}
+        onCancel={() => setLogoutOpen(false)}
+        onConfirm={async () => {
+          setLogoutOpen(false)
+          await handleLogout()
+        }}
+      />
     </div>
   )
 }
