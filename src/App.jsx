@@ -5,7 +5,7 @@ import { useAuth } from './context/AuthContext'
 import { NavLink as RouterNavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import { FiArrowRight, FiCheckCircle, FiExternalLink, FiFileText, FiImage, FiLayers, FiMonitor, FiPackage, FiPenTool, FiPlayCircle, FiSearch, FiStar } from 'react-icons/fi'
-import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
+import { FaBehance, FaGithub, FaLinkedinIn } from 'react-icons/fa6'
 import { HiOutlineArrowDownTray } from 'react-icons/hi2'
 import en from './i18n/en.json'
 import fr from './i18n/fr.json'
@@ -845,7 +845,7 @@ function Footer({ searchInput, setSearchInput, onSearch }) {
           <div className="footer-social">
             <a href="https://github.com/Tseng-YunYeh" target="_blank" rel="noopener noreferrer" className="social-link github" title="GitHub"><FaGithub /></a>
             <a href="https://www.linkedin.com/in/yun-yeh-tseng-52193a34b/" target="_blank" rel="noopener noreferrer" className="social-link linkedin" title="LinkedIn"><FaLinkedinIn /></a>
-            <a href="#" className="social-link twitter" title="X (Twitter)"><FaXTwitter /></a>
+            <a href="https://www.behance.net/yunyehtseng" target="_blank" rel="noopener noreferrer" className="social-link behance" title="Behance"><FaBehance /></a>
           </div>
         </div>
         <div className="footer-column">
