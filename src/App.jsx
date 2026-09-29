@@ -57,7 +57,8 @@ const NAV_ITEMS = [
 const SKILLS = [
   'HTML', 'CSS', 'JavaScript', 'React', 'Figma',
   'Video Editing', 'Maya', 'UI/UX Design',
-  'Unity', 'Adobe Suite', 'Git','Agile Methodologies','WordPress','Communication','Teamwork'
+  'Unity', 'Adobe Suite', 'Git', 'PHP', 'C#', 'C++',
+  'Agile Methodologies', 'WordPress', 'Communication', 'Teamwork'
 ]
 const CONTACT_INFO = [
   { icon: '📍', key: 'location', value: 'Montréal, Canada' },
@@ -966,9 +967,18 @@ function AppContent() {
 
   const filteredProjects = useMemo(() => {
     const q = searchFilter.trim().toLowerCase()
-    return allProjects
+    const projects = allProjects
       .filter(({ theme }) => activeFilter === 'all' || activeFilter === theme.id)
       .filter(({ project }) => !q || `${tObj(project.title)} ${tObj(project.description)}`.toLowerCase().includes(q))
+
+    if (activeFilter !== 'all') return projects
+
+    for (let index = projects.length - 1; index > 0; index -= 1) {
+      const randomIndex = Math.floor(Math.random() * (index + 1))
+      ;[projects[index], projects[randomIndex]] = [projects[randomIndex], projects[index]]
+    }
+
+    return projects
   }, [allProjects, activeFilter, searchFilter, tObj])
 
   const openModal = useCallback((project, theme) => { setModalProject(project); setModalTheme(theme) }, [])
