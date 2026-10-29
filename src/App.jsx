@@ -729,7 +729,17 @@ function ProjectModal({ project, onClose }) {
 
   const media = useMemo(() => {
     if (project.type === 'video' && project.src)
-      return <video src={resolveUrl(project.src)} controls preload="metadata" />
+      return (
+        <video
+          src={resolveUrl(project.src)}
+          controls
+          controlsList="nodownload"
+          disablePictureInPicture
+          disableRemotePlayback
+          preload="metadata"
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      )
     if (project.type === 'web' && project.link) {
       if (project.link.startsWith('http'))
         return project.images?.[0] ? <img src={resolveUrl(project.images[0])} alt={title} /> : <iframe src={project.link} title={title} />
