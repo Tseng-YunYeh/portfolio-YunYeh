@@ -64,7 +64,9 @@
         "filterAll": "Todos",
         "noResults": "Ningún proyecto coincide con tu búsqueda.",
         "clickToDownload": "Clic para Descargar",
-        "viewLive": "Ver en vivo"
+        "viewLive": "Ver en vivo",
+        "clickToPlay": "Haz clic para jugar",
+        "teamMembers": "Miembros del equipo"
     },
     "service": {
         "title": "Servicio",

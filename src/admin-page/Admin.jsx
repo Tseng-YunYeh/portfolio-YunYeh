@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { useLanguage } from '../context/LanguageContext'
+import projectsData from '../data/projects.json'
 import ConfirmDialog from '../components/ConfirmDialog'
 import { bd, storage } from '../firebase/init'
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore'
@@ -39,6 +40,36 @@ export default function Admin() {
     const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }))
     setProjects(docs)
     setLoading(false)
+  }
+
+  async function handleImportMissingProjects() {
+    setLoading(true)
+    try {
+      const snap = await getDocs(colRef)
+      const existingTitles = new Set(snap.docs.map((project) => project.data().title?.en).filter(Boolean))
+      const missingProjects = projectsData.themes.flatMap((theme) =>
+        theme.projects
+          .filter((project) => !existingTitles.has(project.title?.en))
+          .map((project) => ({ ...project, theme: theme.id }))
+      )
+
+      for (const project of missingProjects) {
+        await addDoc(colRef, project)
+      }
+
+      showToast(
+        missingProjects.length > 0
+          ? `${missingProjects.length} projet(s) importé(s).`
+          : 'Tous les projets locaux sont déjà importés.',
+        { type: 'info' }
+      )
+      await fetchProjects()
+    } catch (err) {
+      console.error(err)
+      showToast('Importation échouée.', { type: 'error' })
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleUploadFile(file, path) {
@@ -253,6 +284,15 @@ export default function Admin() {
       </div>
 
       <section className="admin-actions">
+        <div className="admin-import-section">
+          <div>
+            <h2>Importer les projets locaux</h2>
+            <p>Ajoute seulement les projets absents de Firebase pour activer les likes.</p>
+          </div>
+          <button type="button" className="btn btn-outline" onClick={handleImportMissingProjects} disabled={loading}>
+            {loading ? 'Importation...' : 'Importer les projets manquants'}
+          </button>
+        </div>
         <div className="admin-form-section">
           <h2>{editingId ? '✏️ Éditer le projet' : '➕ Créer un nouveau projet'}</h2>
           <form onSubmit={handleSubmit} className="admin-form">

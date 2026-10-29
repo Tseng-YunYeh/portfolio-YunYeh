@@ -1578,6 +1578,19 @@
 
 .project-card:hover .project-overlay-icon { transform: scale(1); }
 
+.project-play-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.project-play-link:hover { color: #fff; }
+
 .project-info { padding: 20px; }
 
 .project-category-badge {
@@ -1610,6 +1623,21 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.project-members {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.project-members-label {
+  color: var(--text-secondary);
+  font-weight: 700;
 }
 
 .project-tech {

@@ -64,7 +64,9 @@
         "filterAll": "All",
         "noResults": "No project matched your search.",
         "clickToDownload": "Click to Download",
-        "viewLive": "View Live"
+        "viewLive": "View Live",
+        "clickToPlay": "Click to Play",
+        "teamMembers": "Team members"
     },
     "service": {
         "title": "Service",

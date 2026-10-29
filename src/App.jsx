@@ -45,7 +45,7 @@ function resolveUrl(pathOrUrl) {
   return `${BASE}${pathOrUrl}`
 }
 const LANGUAGES = ['en', 'fr', 'es', 'zh']
-const CATEGORY_ICONS = { web: '🌐', video: '🎬', design: '🎨', documents: '📄', prototype: '📱' }
+const CATEGORY_ICONS = { web: '🌐', video: '🎬', design: '🎨', documents: '📄', prototype: '📱', team: '🎮' }
 const OVERLAY_ICONS = { video: FiPlayCircle, web: FiExternalLink, pdf: HiOutlineArrowDownTray, 'image-gallery': FiImage }
 const NAV_ITEMS = [
   { id: 'home', path: '/' },
@@ -601,6 +601,14 @@ function ProjectCard({ item, onCardClick, index, registerRef, highlighted }) {
     }
   }
 
+  const handleCardClick = () => {
+    if (project.openDirectly && project.link) {
+      window.open(resolveUrl(project.link), '_blank', 'noopener,noreferrer')
+      return
+    }
+    onCardClick && onCardClick(project, theme)
+  }
+
   const thumbnail = useMemo(() => {
     if (project.images?.length) return <img src={resolveUrl(project.images[0])} alt={title} loading="lazy" />
     if (project.image) return <img src={resolveUrl(project.image)} alt={title} loading="lazy" />
@@ -612,7 +620,7 @@ function ProjectCard({ item, onCardClick, index, registerRef, highlighted }) {
     <div
       className={`project-card ${highlighted ? 'search-hit' : ''}`}
       ref={(node) => registerRef(key, node)}
-      onClick={() => onCardClick && onCardClick(project, theme)}
+      onClick={handleCardClick}
       style={{ animationDelay: `${index * 0.08}s` }}
     >
       <div className="project-thumbnail">
@@ -621,16 +629,35 @@ function ProjectCard({ item, onCardClick, index, registerRef, highlighted }) {
           ❤️ {likeCount}
         </button>
         <div className="project-overlay">
-          <div className="project-overlay-icon"><OverlayIcon /></div>
+          {project.openDirectly && project.link ? (
+            <a
+              href={resolveUrl(project.link)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-play-link"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="project-overlay-icon"><OverlayIcon /></span>
+              <span>{i18n.portfolio.clickToPlay}</span>
+            </a>
+          ) : (
+            <div className="project-overlay-icon"><OverlayIcon /></div>
+          )}
         </div>
       </div>
       <div className="project-info">
         <div className="project-category-badge">{tObj(theme.title)}</div>
         <h3 className="project-title">{title}</h3>
         <p className="project-desc">{tObj(project.description)}</p>
+        {project.members?.length > 0 && (
+          <div className="project-members">
+            <span className="project-members-label">{i18n.portfolio.teamMembers}</span>
+            <span>{project.members.join(' · ')}</span>
+          </div>
+        )}
         {project.technologies?.length > 0 && (
           <div className="project-tech">
-            {project.technologies.map((tech, i) => <span key={i} className="tech-tag">{tech}</span>)}
+            {project.technologies.map((tech, i) => <span key={i} className="tech-tag">{tObj(tech)}</span>)}
           </div>
         )}
       </div>
@@ -925,16 +952,15 @@ function AppContent() {
         }))
       )
 
-      return firestoreProjects.map((project) => {
+      const databaseProjects = firestoreProjects.map((project) => {
         const localMatch = project.title?.en
           ? localProjects.find(({ project: localProject }) => localProject.title?.en === project.title.en)
           : null
         const mergedProject = localMatch ? { ...localMatch.project, ...project } : { ...project }
-        const mergedTheme = localMatch
-          ? project.theme
-            ? { id: project.theme, title: { en: project.theme } }
-            : localMatch.theme
-          : { id: project.theme || 'imported', title: { en: project.theme || 'Imported' } }
+        const storedTheme = project.theme
+          ? projectsData.themes.find((theme) => theme.id === project.theme)
+          : null
+        const mergedTheme = storedTheme || (localMatch ? localMatch.theme : { id: project.theme || 'imported', title: { en: project.theme || 'Imported' } })
 
         return {
           key: mergedProject.id || mergedProject._id || mergedProject.title?.en,
@@ -942,6 +968,10 @@ function AppContent() {
           theme: mergedTheme,
         }
       })
+
+      const databaseTitles = new Set(firestoreProjects.map((project) => project.title?.en).filter(Boolean))
+      const localOnlyProjects = localProjects.filter(({ project }) => !databaseTitles.has(project.title?.en))
+      return [...databaseProjects, ...localOnlyProjects]
     }
     return themes.flatMap((theme) => theme.projects.map((project, projectIndex) => ({ key: `${theme.id}-${projectIndex}`, project, theme })) )
   }, [themes, firestoreProjects])

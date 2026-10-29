@@ -64,7 +64,9 @@
         "filterAll": "全部",
         "noResults": "沒有符合您搜尋條件的專案。",
         "clickToDownload": "點擊下載",
-        "viewLive": "查看實時"
+        "viewLive": "查看實時",
+        "clickToPlay": "點擊遊玩",
+        "teamMembers": "團隊成員"
     },
     "service": {
         "title": "服務",
